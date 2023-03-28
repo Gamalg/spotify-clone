@@ -12,7 +12,7 @@ import SpotifyiOS
 struct SpotifyCloneApp: App {
     var body: some Scene {
         WindowGroup {
-            
+            SignInScreenView()
         }
     }
 }
