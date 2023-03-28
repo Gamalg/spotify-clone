@@ -14,6 +14,7 @@
 		284EAF2129D34737003292F6 /* SpotifyCloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF2029D34737003292F6 /* SpotifyCloneTests.swift */; };
 		284EAF2B29D34737003292F6 /* SpotifyCloneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF2A29D34737003292F6 /* SpotifyCloneUITests.swift */; };
 		284EAF2D29D34737003292F6 /* SpotifyCloneUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF2C29D34737003292F6 /* SpotifyCloneUITestsLaunchTests.swift */; };
+		284EAF3B29D34970003292F6 /* SpotifyiOS in Frameworks */ = {isa = PBXBuildFile; productRef = 284EAF3A29D34970003292F6 /* SpotifyiOS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284EAF3B29D34970003292F6 /* SpotifyiOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +145,9 @@
 			dependencies = (
 			);
 			name = SpotifyClone;
+			packageProductDependencies = (
+				284EAF3A29D34970003292F6 /* SpotifyiOS */,
+			);
 			productName = SpotifyClone;
 			productReference = 284EAF0C29D34736003292F6 /* SpotifyClone.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 284EAF0329D34736003292F6;
+			packageReferences = (
+				284EAF3929D34970003292F6 /* XCRemoteSwiftPackageReference "ios-sdk" */,
+			);
 			productRefGroup = 284EAF0D29D34736003292F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -583,6 +591,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		284EAF3929D34970003292F6 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/spotify/ios-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		284EAF3A29D34970003292F6 /* SpotifyiOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 284EAF3929D34970003292F6 /* XCRemoteSwiftPackageReference "ios-sdk" */;
+			productName = SpotifyiOS;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 284EAF0429D34736003292F6 /* Project object */;
 }
