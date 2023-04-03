@@ -9,8 +9,7 @@ import SwiftUI
 
 struct SignInScreenView: View {
     var body: some View {
-        ZStack {
-            Color.spBlack.ignoresSafeArea()
+        BlackBGScreen {
             VStack {
                 Spacer()
                 Image.spotifyIconWhite
@@ -22,12 +21,9 @@ struct SignInScreenView: View {
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
-                Button("Log in") {
-                    // sign in
+                BorderlessButton(title: "Log in") {
+                    print("Log in")
                 }
-                .foregroundColor(.white)
-                .font(.body.weight(.semibold))
-                .padding(.bottom, 16)
                 Spacer()
             }
         }

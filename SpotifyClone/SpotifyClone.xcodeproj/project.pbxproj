@@ -18,6 +18,8 @@
 		284EAF4129D35464003292F6 /* SpotifyColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF4029D35464003292F6 /* SpotifyColors.swift */; };
 		284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF4229D3596B003292F6 /* SpotifyImages.swift */; };
 		2863132529DAFA8B008DF029 /* TitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132429DAFA8B008DF029 /* TitleText.swift */; };
+		2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132729DAFD2A008DF029 /* BorderlessButton.swift */; };
+		2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		284EAF4029D35464003292F6 /* SpotifyColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyColors.swift; sourceTree = "<group>"; };
 		284EAF4229D3596B003292F6 /* SpotifyImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyImages.swift; sourceTree = "<group>"; };
 		2863132429DAFA8B008DF029 /* TitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleText.swift; sourceTree = "<group>"; };
+		2863132729DAFD2A008DF029 /* BorderlessButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderlessButton.swift; sourceTree = "<group>"; };
+		2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBGScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,11 +145,29 @@
 		284EAF3F29D35455003292F6 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2863132929DAFDC3008DF029 /* Screen */,
+				2863132629DAFD1F008DF029 /* Button */,
 				284EAF4029D35464003292F6 /* SpotifyColors.swift */,
 				284EAF4229D3596B003292F6 /* SpotifyImages.swift */,
 				2863132429DAFA8B008DF029 /* TitleText.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		2863132629DAFD1F008DF029 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				2863132729DAFD2A008DF029 /* BorderlessButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		2863132929DAFDC3008DF029 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */,
+			);
+			path = Screen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,7 +309,9 @@
 				284EAF3E29D353AF003292F6 /* SignInView.swift in Sources */,
 				284EAF4129D35464003292F6 /* SpotifyColors.swift in Sources */,
 				284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */,
+				2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */,
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,
+				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863132529DAFA8B008DF029 /* TitleText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
