@@ -62,7 +62,6 @@ struct Network {
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
         if request.method == .POST {
-            let jsonEncoder = JSONEncoder()
             urlRequest.httpBody = request.body?.encode()
         }
         
