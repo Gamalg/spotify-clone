@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignInScreenView: View {
+    private let viewModel = SignInViewModel()
     var body: some View {
         BlackBGScreen {
             VStack {
@@ -18,11 +19,10 @@ struct SignInScreenView: View {
                     .padding(.bottom, 16)
                 TitleText("Millions of songs.\nFree on Spotify.")
                     .foregroundColor(.white)
-                    .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
                 BorderlessButton(title: "Log in") {
-                    print("Log in")
+                    viewModel.auth()
                 }
                 Spacer()
             }

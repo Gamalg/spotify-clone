@@ -24,14 +24,11 @@ extension HTTPBodyEncodable where Self: Encodable {
 
 struct Request {
     enum HTTPMethod: String {
-        case get
-        case post
-        
-        var value: String {
-            self.rawValue.uppercased()
-        }
+        case GET
+        case POST
     }
     
+    /// Must start with /
     let path: String
     let querryParameters: [String: String]
     let body: HTTPBodyEncodable?
@@ -40,7 +37,7 @@ struct Request {
 }
 
 struct Network {
-    let host: String
+    let host: String = "accounts.spotify.com"
     
     func request<T: Decodable>(_ request: Request) async throws -> T {
         let request = urlRequest(from: request)
@@ -54,6 +51,7 @@ struct Network {
     
     private func urlRequest(from request: Request) -> URLRequest {
         var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
         urlComponents.host = host
         urlComponents.path = request.path
         urlComponents.queryItems = request.querryParameters.reduce(into: [], {
@@ -61,9 +59,9 @@ struct Network {
         })
         
         var urlRequest = URLRequest(url: urlComponents.url!)
-        urlRequest.httpMethod = request.method.value
+        urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
-        if request.method == .post {
+        if request.method == .POST {
             let jsonEncoder = JSONEncoder()
             urlRequest.httpBody = request.body?.encode()
         }
