@@ -8,7 +8,7 @@
 import Foundation
 import CoreFoundation
 
-struct Token: Decodable {
+struct Token: Codable {
     let accessToken: String
     let tokenType: String
     let expiresIn: TimeInterval

@@ -29,6 +29,7 @@
 		28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B5F29DEAEBD006863DB /* TokenStorage.swift */; };
 		28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6229DEB06F006863DB /* GlobalConstants.swift */; };
 		28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */; };
+		28F67B6829DEC3B7006863DB /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		28F67B5F29DEAEBD006863DB /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		28F67B6229DEB06F006863DB /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeChallangeProviding.swift; sourceTree = "<group>"; };
+		28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 		284EAF0E29D34736003292F6 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				28F67B6629DEC343006863DB /* MainPage */,
 				28F67B6129DEB065006863DB /* Common */,
 				28F67B5829DEABFB006863DB /* Authorization */,
 				2863133029DB15CD008DF029 /* Network */,
@@ -249,8 +252,16 @@
 			isa = PBXGroup;
 			children = (
 				28F67B6229DEB06F006863DB /* GlobalConstants.swift */,
+				28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		28F67B6629DEC343006863DB /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MainPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +407,7 @@
 				284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */,
 				28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */,
 				2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */,
+				28F67B6829DEC3B7006863DB /* UserDefaults+Extension.swift in Sources */,
 				2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */,
 				28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */,
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,

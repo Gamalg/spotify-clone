@@ -26,9 +26,4 @@ struct SpotifyCloneApp: App {
             }
         }
     }
-    
-    private func getCode(from url: URL) -> String? {
-        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        return urlComponents?.queryItems?.first { $0.name == "code" }?.value
-    }
 }

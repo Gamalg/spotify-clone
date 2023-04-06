@@ -16,6 +16,7 @@ enum URLType {
 }
 
 struct WebView: UIViewRepresentable {
+    @Environment(\.dismiss) var dismiss
     
     var type: URLType
     var url: String?
@@ -27,7 +28,9 @@ struct WebView: UIViewRepresentable {
         
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
-        configuration.setURLSchemeHandler(GSpotifySchemeHandler(signInViewModel: signInViewModel), forURLScheme: "g-spotify")
+        configuration.setURLSchemeHandler(
+            GSpotifySchemeHandler(signInViewModel: signInViewModel, completion: completion), forURLScheme: GlobalConstants.redirectURIScheme
+        )
         
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
@@ -45,12 +48,18 @@ struct WebView: UIViewRepresentable {
             }
         }
     }
+    
+    private func completion() {
+        dismiss()
+    }
 }
 
 class GSpotifySchemeHandler: NSObject, WKURLSchemeHandler {
-    let signInViewModel: SignInViewModel
-    init(signInViewModel: SignInViewModel) {
+    private let signInViewModel: SignInViewModel
+    private let completion: () -> Void
+    init(signInViewModel: SignInViewModel, completion: @escaping () -> Void) {
         self.signInViewModel = signInViewModel
+        self.completion = completion
     }
 
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
@@ -64,6 +73,9 @@ class GSpotifySchemeHandler: NSObject, WKURLSchemeHandler {
                         code: code,
                         redirectUri: URL(string: "g-spotify://g-spotify-callback")!
                     )
+                    await MainActor.run(body: {
+                        self.completion()
+                    })
                 } catch {
                     
                 }

@@ -9,13 +9,13 @@ import Foundation
 
 struct TokenStorage {
     var get: () -> Token?
-    var set: (Token) -> ()
+    var set: (Token) throws -> ()
 }
 
 extension TokenStorage {
     static let live: Self = TokenStorage {
-        UserDefaults.standard.value(forKey: "TOKEN_STORAGE") as? Token
+        try? UserDefaults.standard.value(forKey: "TOKEN_STORAGE")
     } set: { token in
-        UserDefaults.standard.set(token, forKey: "TOKEN_STORAGE")
+        try UserDefaults.standard.set(token, forKey: "TOKEN_STORAGE")
     }
 }

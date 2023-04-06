@@ -9,13 +9,14 @@ import Foundation
 import CryptoKit
 
 protocol SignInViewModelProtocol {
-    func auth()
+    func authorize() -> String
+    func tokenRequest(code: String, redirectUri: URL) async throws -> Token
 }
 
 class SignInViewModel: SignInViewModelProtocol {
-    private let tokenStorage = TokenStorage.live
-    private let codeChallangeProvider: CodeChallengeProviding = CodeChallengeProvider()
-    private let network = Network()
+    private let tokenStorage: TokenStorage
+    private let codeChallangeProvider: CodeChallengeProviding
+    private let network: Network
     
     private lazy var state = codeChallangeProvider.codeVerifier(length: 16)
     private lazy var codeVerifier = codeChallangeProvider.codeVerifier(length: 53)
@@ -23,9 +24,14 @@ class SignInViewModel: SignInViewModelProtocol {
         codeChallangeProvider.codeChallenge(codeVerifier: codeVerifier) ?? ""
     }()
     
-    func auth() {
+    init(tokeStorage: TokenStorage = .live,
+         codeChallengeProvider: CodeChallengeProviding = CodeChallengeProvider(),
+         network: Network = Network()) {
+        self.tokenStorage = tokeStorage
+        self.codeChallangeProvider = codeChallengeProvider
+        self.network = network
     }
-    
+
     func authorize() -> String {
         let authorize = AuthorizeRequest(state: state, codeChallenge: codeChallenge)
         return network.urlRequest(from: authorize).url?.absoluteString ?? ""
@@ -34,7 +40,7 @@ class SignInViewModel: SignInViewModelProtocol {
     func tokenRequest(code: String, redirectUri: URL) async throws -> Token {
         let request = TokenRequest(code: code, codeVerifier: codeVerifier, redirectUri: redirectUri.absoluteString)
         let token: Token = try await network.request(request)
-        tokenStorage.set(token)
+        try tokenStorage.set(token)
 
         return token
     }
