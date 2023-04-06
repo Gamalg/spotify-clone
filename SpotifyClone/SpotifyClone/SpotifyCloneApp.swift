@@ -18,11 +18,13 @@ import Foundation
  */
 @main
 struct SpotifyCloneApp: App {
-    let signInViewModel: SignInViewModel = .init()
+    private let viewModel = SignInViewModel()
     var body: some Scene {
         WindowGroup {
-            SignInScreenView().onOpenURL { url in
-                print(url)
+            if viewModel.isSignedIn {
+                MainPageView()
+            } else {
+                SignInScreenView()
             }
         }
     }

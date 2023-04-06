@@ -28,7 +28,7 @@ struct SignInScreenView: View {
                 .sheet(isPresented: $shouldPresentSheet) {
                     print("Sheet dismissed!")
                 } content: {
-                    WebView(type: .public, url: viewModel.authorize(), signInViewModel: viewModel)
+                    WebView(type: .public, url: viewModel.signInURL, signInViewModel: viewModel)
                 }
                 Spacer()
             }

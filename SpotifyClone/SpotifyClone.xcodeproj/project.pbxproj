@@ -30,6 +30,7 @@
 		28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6229DEB06F006863DB /* GlobalConstants.swift */; };
 		28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */; };
 		28F67B6829DEC3B7006863DB /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */; };
+		28F67B6A29DED21E006863DB /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6929DED21E006863DB /* MainPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		28F67B6229DEB06F006863DB /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeChallangeProviding.swift; sourceTree = "<group>"; };
 		28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
+		28F67B6929DED21E006863DB /* MainPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 		28F67B6629DEC343006863DB /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
+				28F67B6929DED21E006863DB /* MainPageView.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
+				28F67B6A29DED21E006863DB /* MainPageView.swift in Sources */,
 				28F67B5729DE82E6006863DB /* WebView.swift in Sources */,
 				28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */,
 				28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */,
