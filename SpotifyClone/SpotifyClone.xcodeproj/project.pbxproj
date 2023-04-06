@@ -28,6 +28,7 @@
 		28F67B5A29DEAC22006863DB /* README.MD in Resources */ = {isa = PBXBuildFile; fileRef = 28F67B5929DEAC22006863DB /* README.MD */; };
 		28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B5F29DEAEBD006863DB /* TokenStorage.swift */; };
 		28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6229DEB06F006863DB /* GlobalConstants.swift */; };
+		28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		28F67B5929DEAC22006863DB /* README.MD */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.MD; sourceTree = "<group>"; };
 		28F67B5F29DEAEBD006863DB /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		28F67B6229DEB06F006863DB /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeChallangeProviding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 			children = (
 				28F67B5E29DEAEB1006863DB /* Storage */,
 				2863132E29DB15B6008DF029 /* SignInViewModel.swift */,
+				28F67B6429DEB829006863DB /* CodeChallangeProviding.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
 				28F67B5729DE82E6006863DB /* WebView.swift in Sources */,
+				28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */,
 				28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */,
 				2863132529DAFA8B008DF029 /* TitleText.swift in Sources */,
 			);

@@ -21,9 +21,7 @@ struct WebView: UIViewRepresentable {
     var url: String?
     
     let signInViewModel: SignInViewModel
-    
-    let delegate = WebViewDelegate()
-    
+        
     func makeUIView(context: Context) -> WKWebView {
         let preferences = WKPreferences()
         
@@ -32,12 +30,10 @@ struct WebView: UIViewRepresentable {
         configuration.setURLSchemeHandler(GSpotifySchemeHandler(signInViewModel: signInViewModel), forURLScheme: "g-spotify")
         
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
-        webView.navigationDelegate = delegate
+        
         return webView
-    
     }
     
     func updateUIView(_ webView: WKWebView, context: Context) {
@@ -64,9 +60,10 @@ class GSpotifySchemeHandler: NSObject, WKURLSchemeHandler {
         if let code = components.queryItems?.first(where: { $0.name == "code" })?.value {
             Task {
                 do {
-                    try await signInViewModel.authRequest(
+                    try await signInViewModel.tokenRequest(
                         code: code,
-                        redirectUri: URL(string: "g-spotify://g-spotify-callback")!)
+                        redirectUri: URL(string: "g-spotify://g-spotify-callback")!
+                    )
                 } catch {
                     
                 }
@@ -75,12 +72,5 @@ class GSpotifySchemeHandler: NSObject, WKURLSchemeHandler {
     }
     
     func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-        print("stop urlSchemeTask", webView.url)
-    }
-}
-
-class WebViewDelegate: NSObject, WKUIDelegate, WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print(webView.url)
     }
 }

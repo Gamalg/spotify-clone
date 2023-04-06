@@ -18,9 +18,9 @@ struct AuthorizeRequest: Request {
     
     init(state: String, codeChallenge: String) {
         parameters = [
-            "client_id": "d5266d28457741dc81d9b8172ff32bd5",
+            "client_id": GlobalConstants.spotifyClientID,
             "response_type": "code",
-            "redirect_uri": "g-spotify://g-spotify-callback",
+            "redirect_uri": GlobalConstants.redirectURI,
             "state": state,
             "scope": "user-read-private user-read-email",
             "code_challenge_method": "S256",
