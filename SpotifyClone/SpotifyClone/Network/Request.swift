@@ -7,22 +7,6 @@
 
 import Foundation
 
-protocol HTTPBodyEncodable: Encodable {
-    func encode() -> Data?
-}
-
-extension HTTPBodyEncodable {
-    func encode() -> Data? {
-        do {
-            let jsonEncoder = JSONEncoder()
-            jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
-            return try jsonEncoder.encode(self)
-        } catch {
-            return nil
-        }
-    }
-}
-
 enum HTTPMethod: String {
     case GET
     case POST
@@ -32,7 +16,6 @@ protocol Request {
     /// Must start with /
     var path: String { get }
     var parameters: [String: Any] { get }
-    var body: HTTPBodyEncodable? { get }
     var headers: [String: String] { get }
     var method: HTTPMethod { get }
 }
@@ -50,6 +33,7 @@ struct Network {
             let data = try await URLSession.shared.data(for: request)
             print("Response:", String(data: data.0, encoding: .utf8))
             let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
             let response = try jsonDecoder.decode(T.self, from: data.0)
             return response
         } catch {

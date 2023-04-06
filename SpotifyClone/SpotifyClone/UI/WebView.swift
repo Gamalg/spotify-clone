@@ -43,7 +43,9 @@ struct WebView: UIViewRepresentable {
     func updateUIView(_ webView: WKWebView, context: Context) {
         if let urlValue = url  {
             if let requestUrl = URL(string: urlValue) {
-                webView.load(URLRequest(url: requestUrl))
+                DispatchQueue.main.async {
+                    webView.load(URLRequest(url: requestUrl))
+                }
             }
         }
     }
@@ -54,12 +56,21 @@ class GSpotifySchemeHandler: NSObject, WKURLSchemeHandler {
     init(signInViewModel: SignInViewModel) {
         self.signInViewModel = signInViewModel
     }
+
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
         guard let url = webView.url,
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
         if let code = components.queryItems?.first(where: { $0.name == "code" })?.value {
-            signInViewModel.authRequest(code: code, redirectUri: URL(string: "g-spotify://g-spotify-callback")!)
+            Task {
+                do {
+                    try await signInViewModel.authRequest(
+                        code: code,
+                        redirectUri: URL(string: "g-spotify://g-spotify-callback")!)
+                } catch {
+                    
+                }
+            }
         }
     }
     

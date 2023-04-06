@@ -16,9 +16,6 @@ struct SpotifyCloneApp: App {
         WindowGroup {
             SignInScreenView().onOpenURL { url in
                 print(url)
-                if let code = getCode(from: url) {
-                    signInViewModel.authRequest(code: code, redirectUri: url)
-                }
             }
         }
     }

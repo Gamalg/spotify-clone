@@ -15,7 +15,6 @@ struct AuthorizeRequest: Request {
     var path: String = "/authorize"
     var method: HTTPMethod = .GET
     var parameters: [String : Any]
-    var body: HTTPBodyEncodable? = nil
     
     init(state: String, codeChallenge: String) {
         parameters = [
