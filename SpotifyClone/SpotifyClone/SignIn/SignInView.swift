@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignInScreenView: View {
     private let viewModel = SignInViewModel()
+    @State var shouldPresentSheet = false
     var body: some View {
         BlackBGScreen {
             VStack {
@@ -22,7 +23,12 @@ struct SignInScreenView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
                 BorderlessButton(title: "Log in") {
-                    viewModel.auth()
+                    shouldPresentSheet = true
+                }
+                .sheet(isPresented: $shouldPresentSheet) {
+                    print("Sheet dismissed!")
+                } content: {
+                    WebView(type: .public, url: viewModel.authorize(), signInViewModel: viewModel)
                 }
                 Spacer()
             }

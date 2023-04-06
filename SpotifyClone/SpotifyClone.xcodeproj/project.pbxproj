@@ -22,6 +22,9 @@
 		2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */; };
 		2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132E29DB15B6008DF029 /* SignInViewModel.swift */; };
 		2863133229DB1A65008DF029 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863133129DB1A65008DF029 /* Request.swift */; };
+		28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC55F29DDB52200A38477 /* TokenRequest.swift */; };
+		28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC56229DDF2E200A38477 /* Authorize.swift */; };
+		28F67B5729DE82E6006863DB /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B5629DE82E6006863DB /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,9 @@
 		2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBGScreen.swift; sourceTree = "<group>"; };
 		2863132E29DB15B6008DF029 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		2863133129DB1A65008DF029 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		28EFC55F29DDB52200A38477 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
+		28EFC56229DDF2E200A38477 /* Authorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorize.swift; sourceTree = "<group>"; };
+		28F67B5629DE82E6006863DB /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +161,7 @@
 				284EAF4029D35464003292F6 /* SpotifyColors.swift */,
 				284EAF4229D3596B003292F6 /* SpotifyImages.swift */,
 				2863132429DAFA8B008DF029 /* TitleText.swift */,
+				28F67B5629DE82E6006863DB /* WebView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -187,9 +194,27 @@
 		2863133029DB15CD008DF029 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				28EFC56129DDF2D400A38477 /* New Group */,
+				28EFC55E29DDB51400A38477 /* Auth */,
 				2863133129DB1A65008DF029 /* Request.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		28EFC55E29DDB51400A38477 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				28EFC55F29DDB52200A38477 /* TokenRequest.swift */,
+				28EFC56229DDF2E200A38477 /* Authorize.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		28EFC56129DDF2D400A38477 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,9 +358,12 @@
 				284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */,
 				2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */,
 				2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */,
+				28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */,
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
+				28F67B5729DE82E6006863DB /* WebView.swift in Sources */,
+				28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */,
 				2863132529DAFA8B008DF029 /* TitleText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

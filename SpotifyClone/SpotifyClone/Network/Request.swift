@@ -7,14 +7,15 @@
 
 import Foundation
 
-protocol HTTPBodyEncodable {
+protocol HTTPBodyEncodable: Encodable {
     func encode() -> Data?
 }
 
-extension HTTPBodyEncodable where Self: Encodable {
+extension HTTPBodyEncodable {
     func encode() -> Data? {
         do {
             let jsonEncoder = JSONEncoder()
+            jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
             return try jsonEncoder.encode(self)
         } catch {
             return nil
@@ -22,47 +23,63 @@ extension HTTPBodyEncodable where Self: Encodable {
     }
 }
 
-struct Request {
-    enum HTTPMethod: String {
-        case GET
-        case POST
-    }
-    
+enum HTTPMethod: String {
+    case GET
+    case POST
+}
+
+protocol Request {
     /// Must start with /
-    let path: String
-    let querryParameters: [String: String]
-    let body: HTTPBodyEncodable?
-    let headers: [String: String]
-    let method: HTTPMethod
+    var path: String { get }
+    var parameters: [String: Any] { get }
+    var body: HTTPBodyEncodable? { get }
+    var headers: [String: String] { get }
+    var method: HTTPMethod { get }
 }
 
 struct Network {
+    enum Errors: Error {
+        case decode
+    }
     let host: String = "accounts.spotify.com"
     
     func request<T: Decodable>(_ request: Request) async throws -> T {
         let request = urlRequest(from: request)
-        let data = try await URLSession.shared.data(for: request)
-        
-        let jsonDecoder = JSONDecoder()
-        let response = try jsonDecoder.decode(T.self, from: data.0)
-        
-        return response
+        print("Request:", request)
+        do {
+            let data = try await URLSession.shared.data(for: request)
+            print("Response:", String(data: data.0, encoding: .utf8))
+            let jsonDecoder = JSONDecoder()
+            let response = try jsonDecoder.decode(T.self, from: data.0)
+            return response
+        } catch {
+            print("Decoding error:", error)
+            throw Errors.decode
+        }
     }
     
-    private func urlRequest(from request: Request) -> URLRequest {
+    func urlRequest(from request: Request) -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = host
         urlComponents.path = request.path
-        urlComponents.queryItems = request.querryParameters.reduce(into: [], {
-            $0.append(.init(name: $1.key, value: $1.value))
+        
+        let queryItems: [URLQueryItem] = request.parameters.reduce(into: [], {
+            $0.append(.init(name: $1.key, value: "\($1.value)"))
         })
+        
+        if request.method == .GET {
+            urlComponents.queryItems = queryItems
+        }
         
         var urlRequest = URLRequest(url: urlComponents.url!)
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
+        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         if request.method == .POST {
-            urlRequest.httpBody = request.body?.encode()
+            var components = URLComponents()
+            components.queryItems = queryItems
+            urlRequest.httpBody = components.query?.data(using: .utf8)
         }
         
         return urlRequest
