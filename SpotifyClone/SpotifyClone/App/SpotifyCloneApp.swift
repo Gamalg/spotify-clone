@@ -77,7 +77,7 @@ class AppViewModel: ObservableObject {
     private func refreshToken(_ token: Token) {
         Task {
             do {
-                let newToken = try await tokenIdentityClient.refreshToken(refreshToken: token.refreshToken, redirectUri: URL(string: GlobalConstants.redirectURI)!)
+                let newToken = try await tokenIdentityClient.refreshToken(refreshToken: token.refreshToken)
                 try tokenStorage.set(newToken)
                 self.state = .signedIn
             } catch {

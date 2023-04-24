@@ -12,8 +12,9 @@ struct RefreshTokenRequest: Request {
     var parameters: [String: Any]
     var headers: [String: String] = [:]
     var method: HTTPMethod = .POST
+    var neededAuth: Bool = false
     
-    init(refreshToken: String, redirectUri: String) {
+    init(refreshToken: String) {
         parameters = [
             "refresh_token": refreshToken,
             "redirect_uri": GlobalConstants.redirectURI,

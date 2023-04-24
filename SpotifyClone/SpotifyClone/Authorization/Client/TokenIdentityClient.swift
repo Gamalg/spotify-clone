@@ -12,7 +12,7 @@ protocol TokenIdentityClientProtocol {
     func getToken(code: String, codeVerifier: String, redirectUri: URL) async throws -> Token
     
     @discardableResult
-    func refreshToken(refreshToken: String, redirectUri: URL) async throws -> Token
+    func refreshToken(refreshToken: String) async throws -> Token
 }
 
 struct TokenIdentityClient: TokenIdentityClientProtocol {
@@ -29,8 +29,8 @@ struct TokenIdentityClient: TokenIdentityClientProtocol {
         return token
     }
     
-    func refreshToken(refreshToken: String, redirectUri: URL) async throws -> Token {
-        let request = RefreshTokenRequest(refreshToken: refreshToken, redirectUri: redirectUri.absoluteString)
+    func refreshToken(refreshToken: String) async throws -> Token {
+        let request = RefreshTokenRequest(refreshToken: refreshToken)
         let tokenDTO: TokenDTO = try await network.request(request)
         let token = tokenDTO.toDomain()
         return token
