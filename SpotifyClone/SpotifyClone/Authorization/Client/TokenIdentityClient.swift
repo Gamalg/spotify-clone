@@ -18,7 +18,7 @@ protocol TokenIdentityClientProtocol {
 struct TokenIdentityClient: TokenIdentityClientProtocol {
     private let network: Network
     
-    init(network: Network = .init()) {
+    init(network: Network = Network(host: "accounts.spotify.com")) {
         self.network = network
     }
 

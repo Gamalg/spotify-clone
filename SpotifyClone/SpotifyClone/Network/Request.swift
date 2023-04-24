@@ -56,11 +56,15 @@ struct Network {
         case decode
     }
     
-    private let host: String = "accounts.spotify.com"
+    private let host: String
     private let tokenStorage: TokenStorage = .live
     
+    init(host: String = "api.spotify.com") {
+        self.host = host
+    }
+    
     func request<T: Decodable>(_ request: Request) async throws -> T {
-        var urlRequest = request.toURLRequest()
+        var urlRequest = request.toURLRequest(host: host)
         if request.neededAuth {
             await addAuthHeaders(request: &urlRequest)
         }
@@ -113,7 +117,7 @@ fileprivate extension Data {
             let prettyJsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
             return String(data: prettyJsonData, encoding: .utf8) ?? "Failed to pretty print from Data from request"
         } catch {
-            return "Failed to pretty print from Data from request. Reason \(error.localizedDescription)"
+            return "Failed to pretty print from Data from request. Reason: \(error.localizedDescription).\nData: \(String(data: self, encoding: .utf8))"
         }
     }
 }
