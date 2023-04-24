@@ -18,6 +18,7 @@ protocol Request {
     var parameters: [String: Any] { get }
     var headers: [String: String] { get }
     var method: HTTPMethod { get }
+    var neededAuth: Bool { get }
 }
 
 extension Request {
@@ -55,22 +56,50 @@ struct Network {
     }
     
     private let host: String = "accounts.spotify.com"
+    private let tokenStorage: TokenStorage = .live
     
     func request<T: Decodable>(_ request: Request) async throws -> T {
-        let request = request.toURLRequest()
-        print("Request:", request)
+        var urlRequest = request.toURLRequest()
+        if request.neededAuth {
+            await addAuthHeaders(request: &urlRequest)
+        }
+
+        print("Request:", urlRequest)
+
         do {
-            let data = try await URLSession.shared.data(for: request)
+            let data = try await URLSession.shared.data(for: urlRequest)
             print("Response:", data.0.prettyPrinted())
             let jsonDecoder = JSONDecoder()
             jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
             let response = try jsonDecoder.decode(T.self, from: data.0)
-            let jsonEncoder = JSONEncoder()
-            jsonEncoder.outputFormatting = .prettyPrinted
+            
+            // TODO: Add error handler
+            
             return response
         } catch {
             print("Decoding error:", error)
             throw Errors.decode
+        }
+    }
+    
+    private func addAuthHeaders(request: inout URLRequest) async {
+        guard let token = tokenStorage.get() else {
+            // TODO: Show Authorization screen
+            return
+        }
+
+        guard token.hasTokenExpired else {
+            request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+            return
+        }
+
+        let refreshTokenRequest = RefreshTokenRequest(refreshToken: token.refreshToken)
+        do {
+            let newToken: Token = try await self.request(refreshTokenRequest)
+            try tokenStorage.set(newToken)
+            request.addValue("Bearer \(newToken.accessToken)", forHTTPHeaderField: "Authorization")
+        } catch {
+            // TODO: Show Authorization screen
         }
     }
 }

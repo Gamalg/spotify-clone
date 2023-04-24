@@ -43,6 +43,7 @@ struct TokenRequest: Request {
     var parameters: [String: Any]
     var headers: [String: String] = [:]
     var method: HTTPMethod = .POST
+    var neededAuth: Bool = false
     
     init(code: String, codeVerifier: String, redirectUri: String) {
         parameters = [

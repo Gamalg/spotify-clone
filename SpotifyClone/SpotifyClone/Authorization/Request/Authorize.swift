@@ -15,6 +15,7 @@ struct AuthorizeRequest: Request {
     var path: String = "/authorize"
     var method: HTTPMethod = .GET
     var parameters: [String : Any]
+    var neededAuth: Bool = false
     
     init(state: String, codeChallenge: String) {
         parameters = [
