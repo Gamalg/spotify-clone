@@ -16,7 +16,7 @@ struct Token: Codable {
     let scope: String
     let expiresDate: Date
     var hasTokenExpired: Bool {
-        Date() < expiresDate
+        Date() > expiresDate
     }
 }
 
