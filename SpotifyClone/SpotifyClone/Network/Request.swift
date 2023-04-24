@@ -96,7 +96,8 @@ struct Network {
 
         let refreshTokenRequest = RefreshTokenRequest(refreshToken: token.refreshToken)
         do {
-            let newToken: Token = try await self.request(refreshTokenRequest)
+            let tokenDTO: TokenDTO = try await self.request(refreshTokenRequest)
+            let newToken = tokenDTO.toDomain()
             try tokenStorage.set(newToken)
             request.addValue("Bearer \(newToken.accessToken)", forHTTPHeaderField: "Authorization")
         } catch {
