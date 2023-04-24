@@ -14,6 +14,28 @@ struct Token: Codable {
     let expiresIn: TimeInterval
     let refreshToken: String
     let scope: String
+    let expiresDate: Date
+    var hasTokenExpired: Bool {
+        Date() < expiresDate
+    }
+}
+
+struct TokenDTO: Codable {
+    let accessToken: String
+    let tokenType: String
+    let expiresIn: TimeInterval
+    let refreshToken: String
+    let scope: String
+    
+    func toDomain() -> Token {
+        let fiveMinutesInSeconds: TimeInterval = 60 * 5
+        return Token(accessToken: accessToken,
+                     tokenType: tokenType,
+                     expiresIn: expiresIn,
+                     refreshToken: refreshToken,
+                     scope: scope,
+                     expiresDate: Date().addingTimeInterval(expiresIn - fiveMinutesInSeconds))
+    }
 }
 
 struct TokenRequest: Request {

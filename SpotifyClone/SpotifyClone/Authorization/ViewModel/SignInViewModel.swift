@@ -7,17 +7,20 @@
 
 import Foundation
 import CryptoKit
+import SpotifyiOS
 
 protocol SignInViewModelProtocol {
     var isSignedIn: Bool { get }
     var signInURL: URL { get }
-    func authenticate(code: String, redirectUri: URL) async throws
+    
+    @discardableResult
+    func authenticate(code: String, redirectUri: URL) async throws -> Token
 }
 
 class SignInViewModel: SignInViewModelProtocol {
     private let tokenStorage: TokenStorage
     private let codeChallangeProvider: CodeChallengeProviding
-    private let network: Network
+    private let tokenIdentityClient: TokenIdentityClientProtocol
     
     private lazy var state = codeChallangeProvider.codeVerifier(length: 16)
     private lazy var codeVerifier = codeChallangeProvider.codeVerifier(length: 53)
@@ -26,25 +29,26 @@ class SignInViewModel: SignInViewModelProtocol {
     }()
     
     var signInURL: URL {
-        let authorize = AuthorizeRequest(state: state, codeChallenge: codeChallenge)
-        return network.urlRequest(from: authorize).url!
+        AuthorizeRequest(state: state, codeChallenge: codeChallenge)
+            .toURLRequest()
+            .url!
     }
     
     var isSignedIn: Bool {
-        tokenStorage.get() != nil
+        !(tokenStorage.get()?.hasTokenExpired ?? true)
     }
     
     init(tokeStorage: TokenStorage = .live,
          codeChallengeProvider: CodeChallengeProviding = CodeChallengeProvider(),
-         network: Network = Network()) {
+         tokenIdentityClient: TokenIdentityClientProtocol = TokenIdentityClient()) {
         self.tokenStorage = tokeStorage
         self.codeChallangeProvider = codeChallengeProvider
-        self.network = network
+        self.tokenIdentityClient = tokenIdentityClient
     }
     
-    func authenticate(code: String, redirectUri: URL) async throws {
-        let request = TokenRequest(code: code, codeVerifier: codeVerifier, redirectUri: redirectUri.absoluteString)
-        let token: Token = try await network.request(request)
+    func authenticate(code: String, redirectUri: URL) async throws -> Token {
+        let token = try await tokenIdentityClient.getToken(code: code, codeVerifier: codeVerifier, redirectUri: redirectUri)
         try tokenStorage.set(token)
+        return token
     }
 }
