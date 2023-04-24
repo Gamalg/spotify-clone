@@ -21,11 +21,16 @@ struct SpotifyCloneApp: App {
     private let viewModel = SignInViewModel()
     var body: some Scene {
         WindowGroup {
-            if viewModel.isSignedIn {
-                MainPageView()
-            } else {
-                SignInScreenView()
-            }
+            SignInScreenView()
+//            if viewModel.isSignedIn {
+//                MainPageView()
+//            } else {
+//                SignInScreenView()
+//            }
         }
     }
+}
+
+class AppViewModel: ObservableObject {
+    @Published var isSignedIn: Bool = false
 }
