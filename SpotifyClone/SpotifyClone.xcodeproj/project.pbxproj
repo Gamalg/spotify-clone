@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		280C51C929F56DC200AE3B50 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C51C829F56DC200AE3B50 /* RefreshTokenRequest.swift */; };
+		280C51CC29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C51CB29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift */; };
 		284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF0F29D34736003292F6 /* SpotifyCloneApp.swift */; };
 		284EAF1429D34737003292F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 284EAF1329D34737003292F6 /* Assets.xcassets */; };
 		284EAF1729D34737003292F6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 284EAF1629D34737003292F6 /* Preview Assets.xcassets */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		280C51C829F56DC200AE3B50 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
+		280C51CB29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentUserProfileRequest.swift; sourceTree = "<group>"; };
 		284EAF0C29D34736003292F6 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		284EAF0F29D34736003292F6 /* SpotifyCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyCloneApp.swift; sourceTree = "<group>"; };
 		284EAF1329D34737003292F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,6 +112,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		280C51CA29F66D7D00AE3B50 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				280C51CB29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		284EAF0329D34736003292F6 = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +143,7 @@
 		284EAF0E29D34736003292F6 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				280C51CA29F66D7D00AE3B50 /* Profile */,
 				28F67B7029E041AE006863DB /* App */,
 				28F67B6629DEC343006863DB /* MainPage */,
 				28F67B6129DEB065006863DB /* Common */,
@@ -427,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				284EAF3E29D353AF003292F6 /* SignInView.swift in Sources */,
+				280C51CC29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift in Sources */,
 				280C51C929F56DC200AE3B50 /* RefreshTokenRequest.swift in Sources */,
 				28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */,
 				28F2C27729F12F1B0075894D /* TokenIdentityClient.swift in Sources */,
