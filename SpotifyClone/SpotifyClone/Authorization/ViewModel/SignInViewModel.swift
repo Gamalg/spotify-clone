@@ -14,7 +14,7 @@ protocol SignInViewModelProtocol {
     var signInURL: URL { get }
     
     @discardableResult
-    func authenticate(code: String, redirectUri: URL) async throws -> Token
+    func authenticate(code: String) async throws -> Token
 }
 
 class SignInViewModel: SignInViewModelProtocol {
@@ -46,8 +46,9 @@ class SignInViewModel: SignInViewModelProtocol {
         self.tokenIdentityClient = tokenIdentityClient
     }
     
-    func authenticate(code: String, redirectUri: URL) async throws -> Token {
-        let token = try await tokenIdentityClient.getToken(code: code, codeVerifier: codeVerifier, redirectUri: redirectUri)
+    @discardableResult
+    func authenticate(code: String) async throws -> Token {
+        let token = try await tokenIdentityClient.getToken(code: code, codeVerifier: codeVerifier)
         try tokenStorage.set(token)
         return token
     }

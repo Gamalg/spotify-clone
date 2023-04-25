@@ -45,7 +45,7 @@ struct TokenRequest: Request {
     var method: HTTPMethod = .POST
     var neededAuth: Bool = false
     
-    init(code: String, codeVerifier: String, redirectUri: String) {
+    init(code: String, codeVerifier: String) {
         parameters = [
             "code": code,
             "redirect_uri": GlobalConstants.redirectURI,

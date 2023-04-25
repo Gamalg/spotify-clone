@@ -28,11 +28,6 @@ extension Request {
         urlComponents.host = host
         urlComponents.path = path
         
-        var urlRequest = URLRequest(url: urlComponents.url!)
-        urlRequest.httpMethod = method.rawValue
-        urlRequest.allHTTPHeaderFields = headers
-        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        
         let queryItems: [URLQueryItem] = parameters.reduce(into: [], {
             $0.append(.init(name: $1.key, value: "\($1.value)"))
         })
@@ -40,6 +35,11 @@ extension Request {
         if method == .GET {
             urlComponents.queryItems = queryItems
         }
+        
+        var urlRequest = URLRequest(url: urlComponents.url!)
+        urlRequest.httpMethod = method.rawValue
+        urlRequest.allHTTPHeaderFields = headers
+        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         if method == .POST {
             var components = URLComponents()

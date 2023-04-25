@@ -6,22 +6,21 @@
 //
 
 import SwiftUI
-import SpotifyiOS
 import Foundation
+import Combine
 
-/**
- Thread issues described in this post Xcode 14 & iOS 16 purple warnings starting with "[Security] This method should not .. "  -
- https://developer.apple.com/forums/thread/714467?answerId=734799022#734799022
- 
- Related to poor interaction between WKWebView, Security framework, and this Xcode feature is a known issue (r. 94019453).
- We plan to address it at some point but I don’t have any info to share as to when that’ll happen.
- */
 @main
 struct SpotifyCloneApp: App {
-    @StateObject var viewModel: AppViewModel = AppViewModel()
+    private let appDIContainer = AppDIContainer()
+    @ObservedObject var viewModel: AppViewModel
+    
+    init() {
+        viewModel = appDIContainer.appViewModel
+    }
+    
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView(viewModel: viewModel)
+            AppCoordinatorView(viewModel: viewModel, appDIContainer: appDIContainer)
                 .onAppear(perform: viewModel.onAppear)
         }
     }
@@ -35,6 +34,7 @@ enum AppState {
 
 struct AppCoordinatorView: View {
     @ObservedObject var viewModel: AppViewModel
+    let appDIContainer: AppDIContainer
     var body: some View {
         switch viewModel.state {
         case .checkingForToken:
@@ -45,19 +45,30 @@ struct AppCoordinatorView: View {
         case .signedIn:
             MainPageView()
         case .signedOut:
-            SignInScreenView()
+            SignInScreenView(viewModel: appDIContainer.signInViewModel)
         }
     }
 }
 
-@MainActor
 class AppViewModel: ObservableObject {
     @Published var state: AppState = .checkingForToken
 
     private let tokenStorage = TokenStorage.live
-    private let tokenIdentityClient = TokenIdentityClient()
+    private let tokenIdentityClient: TokenIdentityClientProtocol
+    private var subscriptions: Set<AnyCancellable> = []
+    
+    init(tokenIdentityClient: TokenIdentityClientProtocol) {
+        self.tokenIdentityClient = tokenIdentityClient
+    }
     
     func onAppear() {
+        tokenIdentityClient.token
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.state = .signedIn
+            }
+            .store(in: &subscriptions)
+        
         if let token = tokenStorage.get() {
             checkForToken(token)
         } else {
@@ -79,9 +90,13 @@ class AppViewModel: ObservableObject {
             do {
                 let newToken = try await tokenIdentityClient.refreshToken(refreshToken: token.refreshToken)
                 try tokenStorage.set(newToken)
-                self.state = .signedIn
+                await MainActor.run {
+                    self.state = .signedIn
+                }
             } catch {
-                self.state = .signedOut
+                await MainActor.run {
+                    self.state = .signedOut
+                }
             }
         }
     }
