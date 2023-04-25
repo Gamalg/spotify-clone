@@ -7,64 +7,117 @@
 
 import Foundation
 
-protocol HTTPBodyEncodable {
-    func encode() -> Data?
+enum HTTPMethod: String {
+    case GET
+    case POST
 }
 
-extension HTTPBodyEncodable where Self: Encodable {
-    func encode() -> Data? {
-        do {
-            let jsonEncoder = JSONEncoder()
-            return try jsonEncoder.encode(self)
-        } catch {
-            return nil
-        }
-    }
-}
-
-struct Request {
-    enum HTTPMethod: String {
-        case GET
-        case POST
-    }
-    
+protocol Request {
     /// Must start with /
-    let path: String
-    let querryParameters: [String: String]
-    let body: HTTPBodyEncodable?
-    let headers: [String: String]
-    let method: HTTPMethod
+    var path: String { get }
+    var parameters: [String: Any] { get }
+    var headers: [String: String] { get }
+    var method: HTTPMethod { get }
+    var neededAuth: Bool { get }
 }
 
-struct Network {
-    let host: String = "accounts.spotify.com"
-    
-    func request<T: Decodable>(_ request: Request) async throws -> T {
-        let request = urlRequest(from: request)
-        let data = try await URLSession.shared.data(for: request)
-        
-        let jsonDecoder = JSONDecoder()
-        let response = try jsonDecoder.decode(T.self, from: data.0)
-        
-        return response
-    }
-    
-    private func urlRequest(from request: Request) -> URLRequest {
+extension Request {
+    func toURLRequest(host: String = "accounts.spotify.com") -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = host
-        urlComponents.path = request.path
-        urlComponents.queryItems = request.querryParameters.reduce(into: [], {
-            $0.append(.init(name: $1.key, value: $1.value))
+        urlComponents.path = path
+        
+        let queryItems: [URLQueryItem] = parameters.reduce(into: [], {
+            $0.append(.init(name: $1.key, value: "\($1.value)"))
         })
         
+        if method == .GET {
+            urlComponents.queryItems = queryItems
+        }
+        
         var urlRequest = URLRequest(url: urlComponents.url!)
-        urlRequest.httpMethod = request.method.rawValue
-        urlRequest.allHTTPHeaderFields = request.headers
-        if request.method == .POST {
-            urlRequest.httpBody = request.body?.encode()
+        urlRequest.httpMethod = method.rawValue
+        urlRequest.allHTTPHeaderFields = headers
+        urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        if method == .POST {
+            var components = URLComponents()
+            components.queryItems = queryItems
+            urlRequest.httpBody = components.query?.data(using: .utf8)
         }
         
         return urlRequest
+    }
+}
+
+struct Network {
+    enum Errors: Error {
+        case decode
+    }
+    
+    private let host: String
+    private let tokenStorage: TokenStorage = .live
+    
+    init(host: String = "api.spotify.com") {
+        self.host = host
+    }
+    
+    func request<T: Decodable>(_ request: Request) async throws -> T {
+        var urlRequest = request.toURLRequest(host: host)
+        if request.neededAuth {
+            await addAuthHeaders(request: &urlRequest)
+        }
+
+        print("Request:", urlRequest)
+
+        do {
+            let data = try await URLSession.shared.data(for: urlRequest)
+            print("Response:", data.0.prettyPrinted())
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            let response = try jsonDecoder.decode(T.self, from: data.0)
+            
+            // TODO: Add error handler
+            
+            return response
+        } catch {
+            print("Decoding error:", error)
+            throw Errors.decode
+        }
+    }
+    
+    private func addAuthHeaders(request: inout URLRequest) async {
+        guard let token = tokenStorage.get() else {
+            // TODO: Show Authorization screen
+            return
+        }
+
+        guard token.hasTokenExpired else {
+            request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+            return
+        }
+
+        let refreshTokenRequest = RefreshTokenRequest(refreshToken: token.refreshToken)
+        do {
+            let tokenDTO: TokenDTO = try await self.request(refreshTokenRequest)
+            let newToken = tokenDTO.toDomain()
+            try tokenStorage.set(newToken)
+            request.addValue("Bearer \(newToken.accessToken)", forHTTPHeaderField: "Authorization")
+        } catch {
+            // TODO: Show Authorization screen
+        }
+    }
+}
+
+fileprivate extension Data {
+    func prettyPrinted() -> String {
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: self, options: .allowFragments)
+            let prettyJsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+            return String(data: prettyJsonData, encoding: .utf8) ?? "Failed to pretty print from Data from request"
+        } catch {
+            return "Failed to pretty print from Data from request. Reason: \(error.localizedDescription).\nData: \(String(data: self, encoding: .utf8))"
+        }
     }
 }

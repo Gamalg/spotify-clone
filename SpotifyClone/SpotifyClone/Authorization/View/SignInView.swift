@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct SignInScreenView: View {
-    private let viewModel = SignInViewModel()
+    private let viewModel: SignInViewModelProtocol
+    
+    init(viewModel: SignInViewModelProtocol) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         BlackBGScreen {
             VStack {
@@ -22,9 +27,21 @@ struct SignInScreenView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
                 BorderlessButton(title: "Log in") {
-                    viewModel.auth()
+                    UIApplication.shared.open(viewModel.signInURL)
                 }
                 Spacer()
+            }
+        }.onOpenURL(perform: openURL(url:))
+    }
+    
+    private func openURL(url: URL) {
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        guard let code = components?.queryItems?.first(where: { $0.name == "code" })?.value else { return }
+        Task {
+            do {
+                try await viewModel.authenticate(code: code)
+            } catch {
+                // some error handler
             }
         }
     }
@@ -32,6 +49,6 @@ struct SignInScreenView: View {
 
 struct SignInScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInScreenView()
+        SignInScreenView(viewModel: SignInViewModel())
     }
 }
