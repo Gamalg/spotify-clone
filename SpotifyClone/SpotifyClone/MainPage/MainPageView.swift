@@ -29,10 +29,20 @@ class MainPageViewModel: ObservableObject {
 struct MainPageView: View {
     @StateObject private var mainPageViewModel = MainPageViewModel()
     var body: some View {
-        BlackBGScreen {
-            Text("Hello, it is your main page: \(mainPageViewModel.displayName)")
-                .foregroundColor(.white)
-        }.onAppear(perform: mainPageViewModel.fetchUserProfile)
+        TabView {
+            HomePageView()
+                .tabItem {
+                    Label("Home", systemImage: "")
+                }
+            SearchPageView()
+                .tabItem {
+                    Label("Search", systemImage: "")
+                }
+            YourLibraryPageView()
+                .tabItem {
+                    Label("Library", systemImage: "")
+                }
+        }
     }
 }
 

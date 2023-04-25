@@ -25,6 +25,7 @@
 		2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132E29DB15B6008DF029 /* SignInViewModel.swift */; };
 		2863133229DB1A65008DF029 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863133129DB1A65008DF029 /* Request.swift */; };
 		2886249429F7B9810094B2CA /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249329F7B9810094B2CA /* AppDIContainer.swift */; };
+		2886249729F7BCA40094B2CA /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249629F7BCA40094B2CA /* HomePageView.swift */; };
 		28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC55F29DDB52200A38477 /* TokenRequest.swift */; };
 		28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC56229DDF2E200A38477 /* Authorize.swift */; };
 		28F2C27729F12F1B0075894D /* TokenIdentityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F2C27629F12F1B0075894D /* TokenIdentityClient.swift */; };
@@ -75,6 +76,7 @@
 		2863132E29DB15B6008DF029 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		2863133129DB1A65008DF029 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		2886249329F7B9810094B2CA /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
+		2886249629F7BCA40094B2CA /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		28EFC55F29DDB52200A38477 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		28EFC56229DDF2E200A38477 /* Authorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorize.swift; sourceTree = "<group>"; };
 		28F2C27629F12F1B0075894D /* TokenIdentityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenIdentityClient.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		284EAF0E29D34736003292F6 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				2886249529F7BC9A0094B2CA /* HomePage */,
 				2886249229F7B9790094B2CA /* DI */,
 				280C51CA29F66D7D00AE3B50 /* Profile */,
 				28F67B7029E041AE006863DB /* App */,
@@ -225,6 +228,14 @@
 				2886249329F7B9810094B2CA /* AppDIContainer.swift */,
 			);
 			path = DI;
+			sourceTree = "<group>";
+		};
+		2886249529F7BC9A0094B2CA /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				2886249629F7BCA40094B2CA /* HomePageView.swift */,
+			);
+			path = HomePage;
 			sourceTree = "<group>";
 		};
 		28F2C27529F12F120075894D /* Client */ = {
@@ -464,6 +475,7 @@
 				28F67B6A29DED21E006863DB /* MainPageView.swift in Sources */,
 				28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */,
 				28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */,
+				2886249729F7BCA40094B2CA /* HomePageView.swift in Sources */,
 				2863132529DAFA8B008DF029 /* TitleText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
