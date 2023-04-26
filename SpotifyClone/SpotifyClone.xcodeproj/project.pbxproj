@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		280C51C929F56DC200AE3B50 /* RefreshTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C51C829F56DC200AE3B50 /* RefreshTokenRequest.swift */; };
 		280C51CC29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280C51CB29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift */; };
+		2843CC1F29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2843CC1E29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift */; };
+		2843CC2129F8F42B00D19CC7 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2843CC2029F8F42B00D19CC7 /* Playlist.swift */; };
+		2843CC2329F8FBD600D19CC7 /* ImageLoadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2843CC2229F8FBD600D19CC7 /* ImageLoadClient.swift */; };
 		284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EAF0F29D34736003292F6 /* SpotifyCloneApp.swift */; };
 		284EAF1429D34737003292F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 284EAF1329D34737003292F6 /* Assets.xcassets */; };
 		284EAF1729D34737003292F6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 284EAF1629D34737003292F6 /* Preview Assets.xcassets */; };
@@ -57,6 +60,9 @@
 /* Begin PBXFileReference section */
 		280C51C829F56DC200AE3B50 /* RefreshTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenRequest.swift; sourceTree = "<group>"; };
 		280C51CB29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentUserProfileRequest.swift; sourceTree = "<group>"; };
+		2843CC1E29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentUserPlaylistRequest.swift; sourceTree = "<group>"; };
+		2843CC2029F8F42B00D19CC7 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		2843CC2229F8FBD600D19CC7 /* ImageLoadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadClient.swift; sourceTree = "<group>"; };
 		284EAF0C29D34736003292F6 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		284EAF0F29D34736003292F6 /* SpotifyCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyCloneApp.swift; sourceTree = "<group>"; };
 		284EAF1329D34737003292F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +128,15 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		2843CC1D29F8F2E700D19CC7 /* Playlist */ = {
+			isa = PBXGroup;
+			children = (
+				2843CC1E29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift */,
+				2843CC2029F8F42B00D19CC7 /* Playlist.swift */,
+			);
+			path = Playlist;
+			sourceTree = "<group>";
+		};
 		284EAF0329D34736003292F6 = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +160,7 @@
 		284EAF0E29D34736003292F6 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				2843CC1D29F8F2E700D19CC7 /* Playlist */,
 				2886249529F7BC9A0094B2CA /* HomePage */,
 				2886249229F7B9790094B2CA /* DI */,
 				280C51CA29F66D7D00AE3B50 /* Profile */,
@@ -299,6 +315,7 @@
 			children = (
 				28F67B6229DEB06F006863DB /* GlobalConstants.swift */,
 				28F67B6729DEC3B7006863DB /* UserDefaults+Extension.swift */,
+				2843CC2229F8FBD600D19CC7 /* ImageLoadClient.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -465,6 +482,8 @@
 				284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */,
 				28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */,
 				2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */,
+				2843CC1F29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift in Sources */,
+				2843CC2129F8F42B00D19CC7 /* Playlist.swift in Sources */,
 				28F67B6829DEC3B7006863DB /* UserDefaults+Extension.swift in Sources */,
 				2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */,
 				28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */,
@@ -472,6 +491,7 @@
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
+				2843CC2329F8FBD600D19CC7 /* ImageLoadClient.swift in Sources */,
 				28F67B6A29DED21E006863DB /* MainPageView.swift in Sources */,
 				28F67B6529DEB829006863DB /* CodeChallangeProviding.swift in Sources */,
 				28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */,

@@ -9,34 +9,59 @@ import Foundation
 import Combine
 
 protocol TokenIdentityClientProtocol {
-    var token: PassthroughSubject<Token, Never> { get }
+    var token: PassthroughSubject<Token?, Never> { get }
     @discardableResult
-    func getToken(code: String, codeVerifier: String) async throws -> Token
+    func getToken() async throws -> Token
     
     @discardableResult
-    func refreshToken(refreshToken: String) async throws -> Token
+    func exchangeCodeForToken(code: String, codeVerifier: String) async throws -> Token
+    
+    func removeToken()
+}
+
+enum TokenError: Error {
+    case noToken
 }
 
 class TokenIdentityClient: TokenIdentityClientProtocol {
-    var token: PassthroughSubject<Token, Never> = .init()
+    var token: PassthroughSubject<Token?, Never> = .init()
     private let network: Network
+    private let storage: TokenStorage
     
-    init(network: Network = Network(host: "accounts.spotify.com")) {
+    init(network: Network = Network(host: "accounts.spotify.com"), storage: TokenStorage = .live) {
         self.network = network
+        self.storage = storage
     }
 
-    func getToken(code: String, codeVerifier: String) async throws -> Token {
+    func getToken() async throws -> Token {
+        guard let token = storage.get() else {
+            throw TokenError.noToken
+        }
+        
+        guard token.hasTokenExpired else { return token }
+        
+        return try await refreshToken(refreshToken: token.refreshToken)
+    }
+    
+    func exchangeCodeForToken(code: String, codeVerifier: String) async throws -> Token {
         let request = TokenRequest(code: code, codeVerifier: codeVerifier)
         let tokenDTO: TokenDTO = try await network.request(request)
         let token = tokenDTO.toDomain()
+        try storage.set(token)
         self.token.send(token)
         return token
     }
     
-    func refreshToken(refreshToken: String) async throws -> Token {
+    private func refreshToken(refreshToken: String) async throws -> Token {
         let request = RefreshTokenRequest(refreshToken: refreshToken)
         let tokenDTO: TokenDTO = try await network.request(request)
         let token = tokenDTO.toDomain()
+        try storage.set(token)
         return token
+    }
+    
+    func removeToken() {
+        token.send(nil)
+        storage.remove()
     }
 }

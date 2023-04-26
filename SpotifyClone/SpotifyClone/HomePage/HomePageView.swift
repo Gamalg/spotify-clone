@@ -8,8 +8,42 @@
 import SwiftUI
 
 struct HomePageView: View {
+    @State var playlistName = ""
+    @State var image = Image("")
     var body: some View {
-        Text("Home")
+        VStack {
+            Text("Good day")
+            Text("Your playlist:")
+
+            HStack {
+                image
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                Text(playlistName)
+                    .font(.title)
+            }
+        }.onAppear(perform: getPlaylist)
+    }
+    
+    private func getPlaylist() {
+        Task {
+            do {
+                let network = Network()
+                let playlistRequest = GetCurrentUserPlaylistRequest(limit: 6, offset: 0)
+                let playlists: GetCurrentUserPlaylistResponse = try await network.request(playlistRequest)
+                let urlString = playlists.items.first!.images.first!.url
+                let url = URL(string: urlString)!
+                let imageLoader = ImageLoadClient()
+                let uiImage = try await imageLoader.getImage(for: url)
+                
+                await MainActor.run {
+                    image = Image(uiImage: uiImage)
+                    playlistName = playlists.items.first!.name
+                }
+            } catch {
+                playlistName = error.localizedDescription
+            }
+        }
     }
 }
 

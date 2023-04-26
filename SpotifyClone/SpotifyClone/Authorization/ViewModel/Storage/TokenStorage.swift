@@ -10,6 +10,7 @@ import Foundation
 struct TokenStorage {
     var get: () -> Token?
     var set: (Token) throws -> ()
+    var remove: () -> Void
 }
 
 extension TokenStorage {
@@ -17,5 +18,7 @@ extension TokenStorage {
         try? UserDefaults.standard.value(forKey: "TOKEN_STORAGE")
     } set: { token in
         try UserDefaults.standard.set(token, forKey: "TOKEN_STORAGE")
+    } remove: {
+        UserDefaults.standard.removeObject(forKey: "TOKEN_STORAGE")
     }
 }

@@ -53,7 +53,6 @@ struct AppCoordinatorView: View {
 class AppViewModel: ObservableObject {
     @Published var state: AppState = .checkingForToken
 
-    private let tokenStorage = TokenStorage.live
     private let tokenIdentityClient: TokenIdentityClientProtocol
     private var subscriptions: Set<AnyCancellable> = []
     
@@ -69,27 +68,9 @@ class AppViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
         
-        if let token = tokenStorage.get() {
-            checkForToken(token)
-        } else {
-            state = .signedOut
-        }
-    }
-    
-    private func checkForToken(_ token: Token) {
-        guard token.hasTokenExpired else {
-            self.state = .signedIn
-            return
-        }
-
-        refreshToken(token)
-    }
-    
-    private func refreshToken(_ token: Token) {
         Task {
             do {
-                let newToken = try await tokenIdentityClient.refreshToken(refreshToken: token.refreshToken)
-                try tokenStorage.set(newToken)
+                let _ = try await tokenIdentityClient.getToken()
                 await MainActor.run {
                     self.state = .signedIn
                 }
