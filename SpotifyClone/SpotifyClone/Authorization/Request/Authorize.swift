@@ -11,6 +11,8 @@ struct AuthorizeResponse: Decodable {
 }
 
 struct AuthorizeRequest: Request {
+    typealias ResponseType = EmptyResponse
+    
     var headers: [String : String] = [:]
     var path: String = "/authorize"
     var method: HTTPMethod = .GET

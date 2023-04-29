@@ -12,15 +12,15 @@ struct MainPageView: View {
         TabView {
             HomePageView()
                 .tabItem {
-                    Label("Home", systemImage: "")
+                    Label("Home", systemImage: "house")
                 }
             SearchPageView()
                 .tabItem {
-                    Label("Search", systemImage: "")
+                    Label("Search", systemImage: "magnifyingglass")
                 }
             YourLibraryPageView()
                 .tabItem {
-                    Label("Library", systemImage: "")
+                    Label("Library", systemImage: "rectangle.portrait.on.rectangle.portrait.angled.fill")
                 }
         }
     }

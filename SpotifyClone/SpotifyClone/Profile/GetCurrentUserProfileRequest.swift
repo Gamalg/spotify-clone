@@ -13,6 +13,7 @@ struct UserProfile: Codable {
 }
 
 struct GetCurrentUserProfileRequest: Request {
+    typealias ResponseType = UserProfile
     // TODO: Add API version
     var path: String = "/v1/me"
     var method: HTTPMethod = .GET

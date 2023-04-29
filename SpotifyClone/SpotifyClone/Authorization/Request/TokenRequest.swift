@@ -20,7 +20,7 @@ struct Token: Codable {
     }
 }
 
-struct TokenDTO: Codable {
+struct TokenRequestResponse: Codable {
     let accessToken: String
     let tokenType: String
     let expiresIn: TimeInterval
@@ -39,6 +39,8 @@ struct TokenDTO: Codable {
 }
 
 struct TokenRequest: Request {
+    typealias ResponseType = TokenRequestResponse
+    
     var path: String = "/api/token"
     var parameters: [String: Any]
     var headers: [String: String] = [:]

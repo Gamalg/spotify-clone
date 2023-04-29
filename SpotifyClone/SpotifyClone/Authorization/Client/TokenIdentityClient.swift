@@ -45,7 +45,7 @@ class TokenIdentityClient: TokenIdentityClientProtocol {
     
     func exchangeCodeForToken(code: String, codeVerifier: String) async throws -> Token {
         let request = TokenRequest(code: code, codeVerifier: codeVerifier)
-        let tokenDTO: TokenDTO = try await network.request(request)
+        let tokenDTO: TokenRequestResponse = try await network.request(request)
         let token = tokenDTO.toDomain()
         try storage.set(token)
         self.token.send(token)
@@ -54,7 +54,7 @@ class TokenIdentityClient: TokenIdentityClientProtocol {
     
     private func refreshToken(refreshToken: String) async throws -> Token {
         let request = RefreshTokenRequest(refreshToken: refreshToken)
-        let tokenDTO: TokenDTO = try await network.request(request)
+        let tokenDTO: TokenRequestResponse = try await network.request(request)
         let token = tokenDTO.toDomain()
         try storage.set(token)
         return token

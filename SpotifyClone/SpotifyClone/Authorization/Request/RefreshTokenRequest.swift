@@ -8,6 +8,8 @@
 import Foundation
 
 struct RefreshTokenRequest: Request {
+    typealias ResponseType = TokenRequestResponse
+    
     var path: String = "/api/token"
     var parameters: [String: Any]
     var headers: [String: String] = [:]

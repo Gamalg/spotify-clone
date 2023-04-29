@@ -12,13 +12,26 @@ enum HTTPMethod: String {
     case POST
 }
 
+struct EmptyResponse: Decodable {}
+
 protocol Request {
+    associatedtype ResponseType
     /// Must start with /
     var path: String { get }
     var parameters: [String: Any] { get }
     var headers: [String: String] { get }
     var method: HTTPMethod { get }
     var neededAuth: Bool { get }
+    
+    func decode(_ data: Data) throws -> ResponseType
+}
+
+extension Request where ResponseType: Decodable {
+    func decode(_ data: Data) throws -> ResponseType {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try jsonDecoder.decode(ResponseType.self, from: data)
+    }
 }
 
 extension Request {
@@ -63,7 +76,7 @@ struct Network {
         self.host = host
     }
     
-    func request<T: Decodable>(_ request: Request) async throws -> T {
+    func request<T: Request>(_ request: T) async throws -> T.ResponseType {
         var urlRequest = request.toURLRequest(host: host)
         if request.neededAuth {
             await addAuthHeaders(request: &urlRequest)
@@ -72,11 +85,11 @@ struct Network {
         print("Request:", urlRequest)
 
         do {
-            let data = try await URLSession.shared.data(for: urlRequest)
-            print("Response:", data.0.prettyPrinted())
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            print("Response:", data.prettyPrinted())
             let jsonDecoder = JSONDecoder()
             jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-            let response = try jsonDecoder.decode(T.self, from: data.0)
+            let response = try request.decode(data)
             
             // TODO: Add error handler
             
@@ -100,7 +113,7 @@ struct Network {
 
         let refreshTokenRequest = RefreshTokenRequest(refreshToken: token.refreshToken)
         do {
-            let tokenDTO: TokenDTO = try await self.request(refreshTokenRequest)
+            let tokenDTO: TokenRequestResponse = try await self.request(refreshTokenRequest)
             let newToken = tokenDTO.toDomain()
             try tokenStorage.set(newToken)
             request.addValue("Bearer \(newToken.accessToken)", forHTTPHeaderField: "Authorization")
