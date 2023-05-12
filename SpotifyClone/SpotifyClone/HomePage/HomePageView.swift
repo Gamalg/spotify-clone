@@ -7,68 +7,40 @@
 
 import SwiftUI
 
-struct HomePageView: View {
-    @State var playlistName = ""
-    @State var image = Image("")
-    @State var id = ""
-    var body: some View {
-        VStack {
-            Text("Good day")
-            Text("Your playlist:")
-
-            HStack {
-                image
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                Text(playlistName)
-                    .font(.title)
-                    .onTapGesture {
-                        getSongs(id: self.id)
-                    }
-            }
-        }.onAppear(perform: getPlaylist)
-    }
-    
-    private func getPlaylist() {
+class HomePageViewModel: ObservableObject {
+    @Published var playlists: [PlaylistCellViewData] = []
+    func getPlaylist() {
         Task {
             do {
                 let network = Network()
                 let playlistRequest = GetCurrentUserPlaylistRequest(limit: 6, offset: 0)
                 let playlists: GetCurrentUserPlaylistResponse = try await network.request(playlistRequest)
-                let urlString = playlists.items.first!.images.first!.url
-                let url = URL(string: urlString)!
-                let imageLoader = ImageLoadClient()
-                let uiImage = try await imageLoader.getImage(for: url)
                 
                 await MainActor.run {
-                    image = Image(uiImage: uiImage)
-                    playlistName = playlists.items.first!.name
-                    id = playlists.items.first!.id
+                    self.playlists = playlists.items.map({ item in
+                        PlaylistCellViewData(name: item.name, imageUrl: item.images.first?.url ?? "")
+                    })
                 }
             } catch {
-                playlistName = error.localizedDescription
-            }
-        }
-    }
-    
-    private func getSongs(id: String) {
-        Task {
-            do {
                 
             }
         }
     }
 }
 
-struct SearchPageView: View {
+struct HomePageView: View {
+    @StateObject var viewModel = HomePageViewModel()
     var body: some View {
-        Text("Search")
-    }
-}
-
-struct YourLibraryPageView: View {
-    var body: some View {
-        Text("Your library")
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("Good day")
+                Text("Your playlist:")
+                GridView(data: viewModel.playlists, direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
+                    PlaylistCellView(playlist: playlist)
+                }
+            }
+            .onAppear { viewModel.getPlaylist() }
+        }
     }
 }
 

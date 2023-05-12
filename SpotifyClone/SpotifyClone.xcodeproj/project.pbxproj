@@ -29,9 +29,15 @@
 		2863133229DB1A65008DF029 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863133129DB1A65008DF029 /* Request.swift */; };
 		2886249429F7B9810094B2CA /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249329F7B9810094B2CA /* AppDIContainer.swift */; };
 		2886249729F7BCA40094B2CA /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249629F7BCA40094B2CA /* HomePageView.swift */; };
+		28C15D502A0393BF00B454E9 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C15D4F2A0393BF00B454E9 /* GridView.swift */; };
+		28E684FF2A0E209D006BE5DC /* ImagePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E684FE2A0E209D006BE5DC /* ImagePlaceholder.swift */; };
+		28E685032A0E217D006BE5DC /* SearchPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E685022A0E217D006BE5DC /* SearchPageView.swift */; };
+		28E685052A0E218F006BE5DC /* YourLibraryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E685042A0E218F006BE5DC /* YourLibraryPageView.swift */; };
+		28E6850A2A0E2212006BE5DC /* PlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E685092A0E2212006BE5DC /* PlaylistCellView.swift */; };
 		28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC55F29DDB52200A38477 /* TokenRequest.swift */; };
 		28EFC56329DDF2E200A38477 /* Authorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EFC56229DDF2E200A38477 /* Authorize.swift */; };
 		28F2C27729F12F1B0075894D /* TokenIdentityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F2C27629F12F1B0075894D /* TokenIdentityClient.swift */; };
+		28F67B0A29FE52D80082167D /* AsyncCachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B0929FE52D80082167D /* AsyncCachedImage.swift */; };
 		28F67B5A29DEAC22006863DB /* README.MD in Resources */ = {isa = PBXBuildFile; fileRef = 28F67B5929DEAC22006863DB /* README.MD */; };
 		28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B5F29DEAEBD006863DB /* TokenStorage.swift */; };
 		28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F67B6229DEB06F006863DB /* GlobalConstants.swift */; };
@@ -83,9 +89,15 @@
 		2863133129DB1A65008DF029 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		2886249329F7B9810094B2CA /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		2886249629F7BCA40094B2CA /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
+		28C15D4F2A0393BF00B454E9 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		28E684FE2A0E209D006BE5DC /* ImagePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlaceholder.swift; sourceTree = "<group>"; };
+		28E685022A0E217D006BE5DC /* SearchPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageView.swift; sourceTree = "<group>"; };
+		28E685042A0E218F006BE5DC /* YourLibraryPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourLibraryPageView.swift; sourceTree = "<group>"; };
+		28E685092A0E2212006BE5DC /* PlaylistCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCellView.swift; sourceTree = "<group>"; };
 		28EFC55F29DDB52200A38477 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		28EFC56229DDF2E200A38477 /* Authorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorize.swift; sourceTree = "<group>"; };
 		28F2C27629F12F1B0075894D /* TokenIdentityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenIdentityClient.swift; sourceTree = "<group>"; };
+		28F67B0929FE52D80082167D /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
 		28F67B5929DEAC22006863DB /* README.MD */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.MD; sourceTree = "<group>"; };
 		28F67B5F29DEAEBD006863DB /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		28F67B6229DEB06F006863DB /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
@@ -131,8 +143,9 @@
 		2843CC1D29F8F2E700D19CC7 /* Playlist */ = {
 			isa = PBXGroup;
 			children = (
-				2843CC1E29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift */,
-				2843CC2029F8F42B00D19CC7 /* Playlist.swift */,
+				28E685082A0E2200006BE5DC /* View */,
+				28E685072A0E21F9006BE5DC /* Model */,
+				28E685062A0E21ED006BE5DC /* Request */,
 			);
 			path = Playlist;
 			sourceTree = "<group>";
@@ -160,6 +173,8 @@
 		284EAF0E29D34736003292F6 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				28E685012A0E2164006BE5DC /* Library */,
+				28E685002A0E214B006BE5DC /* Search */,
 				2843CC1D29F8F2E700D19CC7 /* Playlist */,
 				2886249529F7BC9A0094B2CA /* HomePage */,
 				2886249229F7B9790094B2CA /* DI */,
@@ -210,6 +225,9 @@
 				284EAF4029D35464003292F6 /* SpotifyColors.swift */,
 				284EAF4229D3596B003292F6 /* SpotifyImages.swift */,
 				2863132429DAFA8B008DF029 /* TitleText.swift */,
+				28F67B0929FE52D80082167D /* AsyncCachedImage.swift */,
+				28E684FE2A0E209D006BE5DC /* ImagePlaceholder.swift */,
+				28C15D4F2A0393BF00B454E9 /* GridView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -252,6 +270,46 @@
 				2886249629F7BCA40094B2CA /* HomePageView.swift */,
 			);
 			path = HomePage;
+			sourceTree = "<group>";
+		};
+		28E685002A0E214B006BE5DC /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				28E685022A0E217D006BE5DC /* SearchPageView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		28E685012A0E2164006BE5DC /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				28E685042A0E218F006BE5DC /* YourLibraryPageView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		28E685062A0E21ED006BE5DC /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				2843CC1E29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		28E685072A0E21F9006BE5DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2843CC2029F8F42B00D19CC7 /* Playlist.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		28E685082A0E2200006BE5DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				28E685092A0E2212006BE5DC /* PlaylistCellView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		28F2C27529F12F120075894D /* Client */ = {
@@ -478,16 +536,22 @@
 				280C51C929F56DC200AE3B50 /* RefreshTokenRequest.swift in Sources */,
 				28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */,
 				28F2C27729F12F1B0075894D /* TokenIdentityClient.swift in Sources */,
+				28E685032A0E217D006BE5DC /* SearchPageView.swift in Sources */,
 				284EAF4129D35464003292F6 /* SpotifyColors.swift in Sources */,
 				284EAF4329D3596B003292F6 /* SpotifyImages.swift in Sources */,
 				28F67B6329DEB06F006863DB /* GlobalConstants.swift in Sources */,
 				2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */,
+				28F67B0A29FE52D80082167D /* AsyncCachedImage.swift in Sources */,
 				2843CC1F29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift in Sources */,
 				2843CC2129F8F42B00D19CC7 /* Playlist.swift in Sources */,
 				28F67B6829DEC3B7006863DB /* UserDefaults+Extension.swift in Sources */,
+				28E6850A2A0E2212006BE5DC /* PlaylistCellView.swift in Sources */,
+				28E684FF2A0E209D006BE5DC /* ImagePlaceholder.swift in Sources */,
+				28E685052A0E218F006BE5DC /* YourLibraryPageView.swift in Sources */,
 				2863132F29DB15B6008DF029 /* SignInViewModel.swift in Sources */,
 				28EFC56029DDB52200A38477 /* TokenRequest.swift in Sources */,
 				2886249429F7B9810094B2CA /* AppDIContainer.swift in Sources */,
+				28C15D502A0393BF00B454E9 /* GridView.swift in Sources */,
 				284EAF1029D34736003292F6 /* SpotifyCloneApp.swift in Sources */,
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
