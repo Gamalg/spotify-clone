@@ -9,10 +9,12 @@ import SwiftUI
 
 class HomePageViewModel: ObservableObject {
     @Published var playlists: [PlaylistCellViewData] = []
-    func getPlaylist() {
+    @Published var albums: [AlbumHomeGridItemViewData] = []
+    @Published var topArtists: [AlbumHomeGridItemViewData] = []
+    private let network = Network()
+    func getHomePageItems() {
         Task {
             do {
-                let network = Network()
                 let playlistRequest = GetCurrentUserPlaylistRequest(limit: 6, offset: 0)
                 let playlists: GetCurrentUserPlaylistResponse = try await network.request(playlistRequest)
                 
@@ -21,9 +23,30 @@ class HomePageViewModel: ObservableObject {
                         PlaylistCellViewData(name: item.name, imageUrl: item.images.first?.url ?? "")
                     })
                 }
+                try await getUsersAlbums()
+                try await getTopItems()
             } catch {
                 
             }
+            
+        }
+    }
+    
+    private func getUsersAlbums() async throws {
+        let savedAlbumRequest = GetUserSavedAlbumsRequest(limit: 10, offest: 0)
+        let albumsResponse = try await network.request(savedAlbumRequest)
+        await MainActor.run {
+            albums = albumsResponse.items.map({ .init(album: $0.album) })
+        }
+    }
+    
+    private func getTopItems() async throws {
+        let topArtistsRequest = GetUserTopArtistsRequest(limit: 10, offset: 0, timeRange: .short)
+        let response = try await network.request(topArtistsRequest)
+        await MainActor.run {
+            topArtists = response.items.map({
+                .init(name: $0.name, artistName: $0.type, coverImageURL: $0.images.first?.url ?? "")
+            })
         }
     }
 }
@@ -35,13 +58,24 @@ struct HomePageView: View {
             VStack(alignment: .leading) {
                 Text("Good day")
                 Text("Your playlist:")
-                GridView(data: viewModel.playlists, direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
+                GridView(data: viewModel.playlists,
+                         direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
                     PlaylistCellView(playlist: playlist)
                 }
+                Text("Your top artists")
+                GridView(data: viewModel.topArtists,
+                         direction: .horizontal([GridItem(.flexible())])) { album in
+                    AlbumHomeGridItemView(album: album)
+                }
+                
+                GridView(data: viewModel.albums,
+                         direction: .horizontal([GridItem(.flexible())])) { album in
+                    AlbumHomeGridItemView(album: album)
+                }
             }
-            .onAppear { viewModel.getPlaylist() }
+            .onAppear { viewModel.getHomePageItems() }
         }
-    }
+    } 
 }
 
 struct PlaylistTracksResponse: Codable {

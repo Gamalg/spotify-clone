@@ -25,7 +25,7 @@ struct AuthorizeRequest: Request {
             "response_type": "code",
             "redirect_uri": GlobalConstants.redirectURI,
             "state": state,
-            "scope": "user-read-private user-read-email",
+            "scope": "user-read-private user-read-email user-library-read user-top-read",
             "code_challenge_method": "S256",
             "code_challenge": codeChallenge
         ]

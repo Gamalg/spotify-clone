@@ -42,14 +42,16 @@ struct GridView<Data, Content, Header>: View where Data: Hashable, Content: View
     
     var body: some View {
         ScrollView(direction.scrollViewDirection) {
-            header()
-            switch direction {
-            case .vertical(let columns):
-                LazyVGrid(columns: columns, alignment: .leading, spacing: spacing, content: contentItems)
-                    .padding(spacing/2)
-            case .horizontal(let rows):
-                LazyHGrid(rows: rows, alignment: .center, spacing: spacing, content: contentItems)
-                    .padding(spacing/2)
+            VStack {
+                header()
+                switch direction {
+                case .vertical(let columns):
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: spacing, content: contentItems)
+                        .padding(spacing/2)
+                case .horizontal(let rows):
+                    LazyHGrid(rows: rows, alignment: .center, spacing: spacing, content: contentItems)
+                        .padding(spacing/2)
+                }
             }
         }
     }
