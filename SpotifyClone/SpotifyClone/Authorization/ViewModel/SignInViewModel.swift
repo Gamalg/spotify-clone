@@ -2,44 +2,50 @@
 //  SignInViewModel.swift
 //  SpotifyClone
 //
-//  Created by Gamal Kubeyev on 03.04.2023.
+//  Created by Gamal Kubeyev on 23.05.2023.
 //
 
 import Foundation
-import CryptoKit
-import SpotifyiOS
 
 protocol SignInViewModelProtocol {
-    var signInURL: URL { get }
+    func signIn()
+    func signOut()
     
-    @discardableResult
-    func authenticate(code: String) async throws -> Token
+    func handleAuthURL(_ url: URL)
 }
 
-class SignInViewModel: SignInViewModelProtocol {
-    private let codeChallangeProvider: CodeChallengeProviding
-    private let tokenIdentityClient: TokenIdentityClientProtocol
+class SignInViewModel: NSObject, SignInViewModelProtocol {
+    private let authService: AuthServiceProtocol
+    private let signOutService: SignOutServiceProtocol
+    private let urlHandler: URLHandlerProtocol
     
-    private lazy var state = codeChallangeProvider.codeVerifier(length: 16)
-    private lazy var codeVerifier = codeChallangeProvider.codeVerifier(length: 53)
-    private lazy var codeChallenge: String = {
-        codeChallangeProvider.codeChallenge(codeVerifier: codeVerifier) ?? ""
-    }()
-    
-    var signInURL: URL {
-        AuthorizeRequest(state: state, codeChallenge: codeChallenge)
-            .toURLRequest()
-            .url!
+    init(authService: AuthServiceProtocol, signOutService: SignOutServiceProtocol, urlHandler: URLHandlerProtocol) {
+        self.authService = authService
+        self.signOutService = signOutService
+        self.urlHandler = urlHandler
     }
     
-    init(codeChallengeProvider: CodeChallengeProviding = CodeChallengeProvider(),
-         tokenIdentityClient: TokenIdentityClientProtocol = TokenIdentityClient()) {
-        self.codeChallangeProvider = codeChallengeProvider
-        self.tokenIdentityClient = tokenIdentityClient
+    func signIn() {
+        authService.signIn()
     }
     
-    @discardableResult
-    func authenticate(code: String) async throws -> Token {
-        try await tokenIdentityClient.exchangeCodeForToken(code: code, codeVerifier: codeVerifier)
+    func signOut() {
+        signOutService.signOut()
+    }
+    
+    func handleAuthURL(_ url: URL) {
+        urlHandler.handle(url)
     }
 }
+
+struct SignInViewModelMock: SignInViewModelProtocol {
+    func signIn() {
+    }
+    
+    func signOut() {
+    }
+    
+    func handleAuthURL(_ url: URL) {
+    }
+}
+

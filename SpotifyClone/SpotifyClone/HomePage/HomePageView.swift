@@ -11,7 +11,7 @@ class HomePageViewModel: ObservableObject {
     @Published var playlists: [PlaylistCellViewData] = []
     @Published var albums: [AlbumHomeGridItemViewData] = []
     @Published var topArtists: [AlbumHomeGridItemViewData] = []
-    private let network = Network()
+    private let network = AppDIContainer.shared.network
     func getHomePageItems() {
         Task {
             do {

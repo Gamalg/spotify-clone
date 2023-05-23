@@ -11,16 +11,15 @@ import Combine
 
 @main
 struct SpotifyCloneApp: App {
-    private let appDIContainer = AppDIContainer()
     @ObservedObject var viewModel: AppViewModel
     
     init() {
-        viewModel = appDIContainer.appViewModel
+        viewModel = AppDIContainer.shared.appViewModel
     }
     
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView(viewModel: viewModel, appDIContainer: appDIContainer)
+            AppCoordinatorView(viewModel: viewModel)
                 .onAppear(perform: viewModel.onAppear)
         }
     }
@@ -34,7 +33,7 @@ enum AppState {
 
 struct AppCoordinatorView: View {
     @ObservedObject var viewModel: AppViewModel
-    let appDIContainer: AppDIContainer
+    let appDIContainer: AppDIContainer = AppDIContainer.shared
     var body: some View {
         switch viewModel.state {
         case .checkingForToken:
@@ -53,32 +52,32 @@ struct AppCoordinatorView: View {
 class AppViewModel: ObservableObject {
     @Published var state: AppState = .checkingForToken
 
-    private let tokenIdentityClient: TokenIdentityClientProtocol
     private var subscriptions: Set<AnyCancellable> = []
+    private var tokenStorage: TokenStorage
     
-    init(tokenIdentityClient: TokenIdentityClientProtocol) {
-        self.tokenIdentityClient = tokenIdentityClient
+    init(tokenStorage: TokenStorage) {
+        self.tokenStorage = tokenStorage
     }
-    
+        
     func onAppear() {
-        tokenIdentityClient.token
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.state = .signedIn
+        tokenStorage.token
+            .sink { [weak self] token in
+                self?.updateState(token: token)
             }
             .store(in: &subscriptions)
         
+        updateState(token: tokenStorage.token.value)
+    }
+    
+    private func updateState(token: Token?) {
         Task {
-            do {
-                let _ = try await tokenIdentityClient.getToken()
-                await MainActor.run {
-                    self.state = .signedIn
+            await MainActor.run(body: {
+                if token != nil {
+                    state = .signedIn
+                } else {
+                    state = .signedOut
                 }
-            } catch {
-                await MainActor.run {
-                    self.state = .signedOut
-                }
-            }
+            })
         }
     }
 }

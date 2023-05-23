@@ -27,28 +27,16 @@ struct SignInScreenView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
                 BorderlessButton(title: "Log in") {
-                    UIApplication.shared.open(viewModel.signInURL)
+                    viewModel.signIn()
                 }
                 Spacer()
             }
-        }.onOpenURL(perform: openURL(url:))
-    }
-    
-    private func openURL(url: URL) {
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        guard let code = components?.queryItems?.first(where: { $0.name == "code" })?.value else { return }
-        Task {
-            do {
-                try await viewModel.authenticate(code: code)
-            } catch {
-                // some error handler
-            }
-        }
+        }.onOpenURL(perform: viewModel.handleAuthURL(_:))
     }
 }
 
 struct SignInScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInScreenView(viewModel: SignInViewModel())
+        SignInScreenView(viewModel: SignInViewModelMock())
     }
 }
