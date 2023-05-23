@@ -1,5 +1,5 @@
 //
-//  TrackListView.swift
+//  TrackListContainerView.swift
 //  SpotifyClone
 //
 //  Created by Gamal Kubeyev on 20.05.2023.
@@ -66,7 +66,7 @@ fileprivate struct TrackListItemView: View {
     }
 }
 
-struct TrackListView: View {
+struct TrackListContainerView: View {
     var body: some View {
         // TODO: - Add gradient background
         ScrollView {
@@ -98,6 +98,6 @@ struct TrackListView: View {
 
 struct TrackListView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackListView()
+        TrackListContainerView()
     }
 }

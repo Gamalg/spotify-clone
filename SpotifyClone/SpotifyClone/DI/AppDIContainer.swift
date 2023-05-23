@@ -9,6 +9,7 @@ import Foundation
 import SpotifyiOS
 
 class AppDIContainer {
+    // TODO: - Rework shared singleton
     static let shared = AppDIContainer()
     
     lazy var sessionManager: SPTSessionManager = {
@@ -24,7 +25,7 @@ class AppDIContainer {
     }
     
     var appViewModel: AppViewModel {
-        AppViewModel(tokenStorage: authManager)
+        AppViewModel(tokenStorage: authManager, sessionArchive: authManager)
     }
     
     lazy var network = Network(tokenStorage: authManager, authService: authManager)

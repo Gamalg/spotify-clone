@@ -54,9 +54,11 @@ class AppViewModel: ObservableObject {
 
     private var subscriptions: Set<AnyCancellable> = []
     private var tokenStorage: TokenStorage
+    private var sessionArchive: SessionArchiving
     
-    init(tokenStorage: TokenStorage) {
+    init(tokenStorage: TokenStorage, sessionArchive: SessionArchiving) {
         self.tokenStorage = tokenStorage
+        self.sessionArchive = sessionArchive
     }
         
     func onAppear() {
@@ -66,7 +68,7 @@ class AppViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
         
-        updateState(token: tokenStorage.token.value)
+        sessionArchive.resumeSessionIfPossible()
     }
     
     private func updateState(token: Token?) {
