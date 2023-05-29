@@ -92,12 +92,30 @@ class Network {
         do {
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
             print("Response:", data.prettyPrinted())
-            let jsonDecoder = JSONDecoder()
-            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
             let response = try request.decode(data)
             
             // TODO: Add error handler
+            return response
+        } catch {
+            print("Decoding error:", error)
+            throw Errors.decode
+        }
+    }
+    
+    func request<Response: Decodable>(url: URL) async throws -> Response {
+        var urlRequest = URLRequest(url: url)
+        addAuthHeaders(request: &urlRequest)
+        
+        print("Request:", urlRequest)
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            print("Response:", data.prettyPrinted())
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            let response = try jsonDecoder.decode(Response.self, from: data)
             
+            // TODO: Add error handler
             return response
         } catch {
             print("Decoding error:", error)

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Foundation.NSNotification
 
 struct MainPageView: View {
+    @StateObject var playerViewModel = PlayerViewModel()
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView {
@@ -25,14 +27,20 @@ struct MainPageView: View {
                     }
             }
             
-            Text("Here will be player")
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 49, trailing: 0))
+            PlayingSongPreviewView()
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 48, trailing: 0))
         }
+            .environmentObject(playerViewModel)
+            .onAppear(perform: onAppear)
+    }
+    
+    private func onAppear() {
+        playerViewModel.connect()
     }
 }
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPageView()
+        MainPageView(playerViewModel: PlayerViewModel.filledViewModel())
     }
 }

@@ -11,17 +11,20 @@ struct AlbumHomeGridItemViewData: Hashable {
     var name: String
     var artistName: String
     var coverImageURL: String
+    var href: String
     
-    internal init(name: String, artistName: String, coverImageURL: String) {
+    internal init(name: String, artistName: String, coverImageURL: String, href: String) {
         self.name = name
         self.artistName = artistName
         self.coverImageURL = coverImageURL
+        self.href = href
     }
     
     init(album: Album) {
         self.name = album.name
         self.artistName = album.artists.first?.name ?? ""
         self.coverImageURL = album.images.first?.url ?? ""
+        self.href = album.href
     }
 }
 
@@ -42,6 +45,7 @@ struct AlbumHomeGridItemView_Previews: PreviewProvider {
     static var previews: some View {
         AlbumHomeGridItemView(album: .init(name: "Album",
                                            artistName: "Artist",
-                                           coverImageURL: ""))
+                                           coverImageURL: "",
+                                           href: ""))
     }
 }

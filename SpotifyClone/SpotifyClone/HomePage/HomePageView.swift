@@ -10,112 +10,70 @@ import SwiftUI
 struct HomePageView: View {
     @StateObject var viewModel = HomePageViewModel()
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text("Good day")
-                Text("Your playlist:")
-                GridView(data: viewModel.playlists,
-                         direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
-                    PlaylistCellView(playlist: playlist)
-                }
-                Text("Your top artists")
-                GridView(data: viewModel.topArtists,
-                         direction: .horizontal([GridItem(.flexible())])) { album in
-                    AlbumHomeGridItemView(album: album)
-                }
-                
-                GridView(data: viewModel.albums,
-                         direction: .horizontal([GridItem(.flexible())])) { album in
-                    AlbumHomeGridItemView(album: album)
+        NavigationView {
+            BlackBGScreen {
+                // Grid view made of grid views
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        Text("Good day")
+                        Text("Your playlist:")
+                        GridView(data: viewModel.playlists,
+                                 direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
+                            NavigationLink {
+                                TrackListContainerView(
+                                    viewModel: .init(imageURL: playlist.imageUrl, type: .playlist(playlist.href))
+                                )
+                            } label: {
+                                PlaylistCellView(playlist: playlist)
+                            }
+                        }
+                        GridView(data: viewModel.albums,
+                                 direction: .horizontal([GridItem(.flexible())])) { album in
+                            NavigationLink {
+                                TrackListContainerView(
+                                    viewModel: .init(imageURL: album.images.first?.url ?? "", type: .album(album))
+                                )
+                            } label: {
+                                AlbumHomeGridItemView(album: AlbumHomeGridItemViewData(album: album))
+                            }
+                        }
+                        
+                        // TODO: - Feauture: Recently played
+                        
+                        // TODO: - Feauture: Recommendations
+                        
+                        // TODO: - Feauture: Related artists (related to random top artists)
+                        
+                        // TODO: - Feauture: New release
+                    }
+                    .padding()
+                    .onAppear { viewModel.getHomePageItems() }
                 }
             }
-            .onAppear { viewModel.getHomePageItems() }
         }
-    } 
+    }
 }
 
 struct PlaylistTracksResponse: Codable {
-    let href: String
-    let items: [PlaylistTrackItem]
-    let limit: Int
-    let next: String?
-    let offset: Int
-    let previous: String?
-    let total: Int
+    let name: String
+    let tracks: PlaylistTracksResponse.Tracks
     
-    struct PlaylistTrackItem: Codable {
-        let addedAt: String
-        let addedBy: AddedBy?
-        let isLocal: Bool
-        let track: Track
-        
-        struct AddedBy: Codable {
-            let externalUrls: [String: String]
-            let href: String?
-            let id: String
-            let type: String
-            let uri: String
-        }
-        
-        struct Track: Codable {
-            let album: Album
-            let artists: [Artist]
-            let availableMarkets: [String]
-            let discNumber: Int
-            let durationMs: Int
-            let explicit: Bool
-            let externalIds: [String: String]
-            let externalUrls: [String: String]
-            let href: String
-            let id: String
-            let isLocal: Bool
-            let name: String
-            let popularity: Int
-            let previewUrl: String?
-            let trackNumber: Int
-            let type: String
-            let uri: String
-            
-            struct Album: Codable {
-                let albumType: String
-                let artists: [Artist]
-                let availableMarkets: [String]
-                let externalUrls: [String: String]
-                let href: String
-                let id: String
-                let images: [Image]
+    struct Tracks: Codable {
+        struct TrackItem: Codable {
+            struct Track: Codable {
                 let name: String
-                let releaseDate: String
-                let releaseDatePrecision: String
-                let totalTracks: Int
-                let type: String
+                let durationMs: Int
                 let uri: String
-                
+                let artists: [PlaylistTracksResponse.Tracks.TrackItem.Track.Artist]
                 struct Artist: Codable {
-                    let externalUrls: [String: String]
-                    let href: String
-                    let id: String
                     let name: String
-                    let type: String
-                    let uri: String
-                }
-                
-                struct Image: Codable {
-                    let height: Int?
-                    let url: String
-                    let width: Int?
                 }
             }
             
-            struct Artist: Codable {
-                let externalUrls: [String: String]
-                let href: String
-                let id: String
-                let name: String
-                let type: String
-                let uri: String
-            }
+            let track: PlaylistTracksResponse.Tracks.TrackItem.Track
         }
+        
+        let items: [PlaylistTracksResponse.Tracks.TrackItem]
     }
 }
 

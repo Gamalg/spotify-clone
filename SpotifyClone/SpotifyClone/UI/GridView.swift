@@ -41,7 +41,7 @@ struct GridView<Data, Content, Header>: View where Data: Hashable, Content: View
     }
     
     var body: some View {
-        ScrollView(direction.scrollViewDirection) {
+        ScrollView(direction.scrollViewDirection, showsIndicators: false) {
             VStack {
                 header()
                 switch direction {

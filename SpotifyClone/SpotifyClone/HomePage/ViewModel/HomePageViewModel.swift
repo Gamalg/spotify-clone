@@ -10,7 +10,7 @@ import Foundation
 class HomePageViewModel: ObservableObject {
     // TODO: - Create one model to present the home page
     @Published var playlists: [PlaylistCellViewData] = []
-    @Published var albums: [AlbumHomeGridItemViewData] = []
+    @Published var albums: [Album] = []
     @Published var topArtists: [AlbumHomeGridItemViewData] = []
 
     private let network = AppDIContainer.shared.network
@@ -23,7 +23,9 @@ class HomePageViewModel: ObservableObject {
                 
                 await MainActor.run {
                     self.playlists = playlists.items.map({ item in
-                        PlaylistCellViewData(name: item.name, imageUrl: item.images.first?.url ?? "")
+                        PlaylistCellViewData(name: item.name,
+                                             imageUrl: item.images.first?.url ?? "",
+                                             href: item.href)
                     })
                 }
                 try await getUsersAlbums()
@@ -39,7 +41,7 @@ class HomePageViewModel: ObservableObject {
         let savedAlbumRequest = GetUserSavedAlbumsRequest(limit: 10, offest: 0)
         let albumsResponse = try await network.request(savedAlbumRequest)
         await MainActor.run {
-            albums = albumsResponse.items.map({ .init(album: $0.album) })
+            albums = albumsResponse.items.map({ $0.album })
         }
     }
     
@@ -48,7 +50,7 @@ class HomePageViewModel: ObservableObject {
         let response = try await network.request(topArtistsRequest)
         await MainActor.run {
             topArtists = response.items.map({
-                .init(name: $0.name, artistName: $0.type, coverImageURL: $0.images.first?.url ?? "")
+                .init(name: $0.name, artistName: $0.type, coverImageURL: $0.images.first?.url ?? "", href: $0.href)
             })
         }
     }

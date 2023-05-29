@@ -10,6 +10,7 @@ import SwiftUI
 struct PlaylistCellViewData: Hashable {
     let name: String
     let imageUrl: String
+    let href: String
 }
 
 struct PlaylistCellView: View {
@@ -29,7 +30,8 @@ struct PlaylistCellView_Previews: PreviewProvider {
     static var previews: some View {
         PlaylistCellView(playlist: PlaylistCellViewData(
             name: "Playlist",
-            imageUrl: "")
+            imageUrl: "",
+            href: "")
         )
     }
 }
