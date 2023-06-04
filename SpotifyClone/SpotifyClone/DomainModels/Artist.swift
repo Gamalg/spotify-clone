@@ -9,28 +9,28 @@ import Foundation
 
 struct Artist: Decodable {
     let externalUrls: ExternalUrls
-    let followers: Followers
+    let followers: Followers?
     let genres: [String]
-    let href: String
+    let href: WebAPIEndpointLink
     let id: String
-    let images: [Image]
+    let images: [RemoteImage]
     let name: String
     let popularity: Int
     let type: String
-    let uri: String
-    
-    struct ExternalUrls: Decodable {
-        let spotify: String
-    }
+    let uri: SpotifyURI
 
     struct Followers: Decodable {
-        let href: String?
+        let href: WebAPIEndpointLink?
         let total: Int
     }
+}
 
-    struct Image: Decodable {
-        let height: Int?
-        let url: String
-        let width: Int?
-    }
+struct SimplfiedArtist: Hashable, Decodable {
+    let externalUrls: ExternalUrls
+    let href: WebAPIEndpointLink
+    let id: String
+    let name: String
+    /// Allowed values: "artist"
+    let type: String
+    let uri: SpotifyURI
 }

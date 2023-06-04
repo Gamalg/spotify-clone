@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct RemoteImage: Hashable, Decodable {
+    let url: String
+    let width: CGFloat?
+    let height: CGFloat?
+}
