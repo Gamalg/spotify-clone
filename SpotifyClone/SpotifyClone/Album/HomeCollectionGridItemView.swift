@@ -28,7 +28,7 @@ struct AlbumHomeGridItemViewData: Hashable {
     }
 }
 
-struct AlbumHomeGridItemView: View {
+struct HomeCollectionGridItemView: View {
     let album: AlbumHomeGridItemViewData
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,14 +36,16 @@ struct AlbumHomeGridItemView: View {
                              placeholder: .playlist)
                 .frame(width: 150, height: 150)
             Text(album.name)
+                .foregroundColor(.white)
             Text(album.artistName)
+                .foregroundColor(.white)
         }
     }
 }
 
 struct AlbumHomeGridItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AlbumHomeGridItemView(album: .init(name: "Album",
+        HomeCollectionGridItemView(album: .init(name: "Album",
                                            artistName: "Artist",
                                            coverImageURL: "",
                                            href: ""))
