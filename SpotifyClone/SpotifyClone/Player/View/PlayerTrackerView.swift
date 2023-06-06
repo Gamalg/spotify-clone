@@ -14,10 +14,10 @@ struct CustomSlider: View {
     
     /// 1 second in milliseconds
     private let step: Double = 1
-    private let trackColor: Color = .white
-    private let thumbColor: Color = .white
-    private let remainedDurationColor: Color = .black.opacity(0.1)
-    private let trackHeight: CGFloat = 8
+    let trackColor: Color = .white
+    let thumbColor: Color = .white
+    let remainedDurationColor: Color = .lightGray
+    private let trackHeight: CGFloat = 4
     private let thumbSize: CGSize = CGSize(width: 16, height: 16)
     
     @EnvironmentObject var playerViewModel: PlayerViewModel
@@ -92,9 +92,11 @@ struct PlayerTrackView: View {
             HStack {
                 Text(Int(playerViewModel.currentValue).convertSecondsToTime())
                     .padding(.leading)
+                    .foregroundColor(.lightGray)
                 Spacer()
                 Text(Int(playerViewModel.state?.duration ?? 0.0).convertSecondsToTime())
                     .padding(.trailing)
+                    .foregroundColor(.lightGray)
             }
         }.frame(maxHeight: 44)
     }
@@ -113,6 +115,7 @@ struct PlayerTrackView_Preview: PreviewProvider {
     static var previews: some View {
         BlackBGScreen {
             PlayerTrackView()
+                .environmentObject(PlayerViewModel.filledViewModel())
         }
     }
 }

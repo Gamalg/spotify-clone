@@ -105,7 +105,8 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
         self.state = State(
             artistName: playerState.track.artist.name,
             songName: playerState.track.name,
-            duration: Double(playerState.track.duration / 1000))
+            duration: Double(playerState.track.duration / 1000)
+        )
         self.currentValue = Double(playerState.playbackPosition / 1000)
         self.isPlaying = !playerState.isPaused
     }

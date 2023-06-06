@@ -36,6 +36,9 @@
 		2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132729DAFD2A008DF029 /* BorderlessButton.swift */; };
 		2863132B29DAFDD7008DF029 /* BlackBGScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */; };
 		2863133229DB1A65008DF029 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2863133129DB1A65008DF029 /* Request.swift */; };
+		287F03782A2F9F25007399F4 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287F03772A2F9F25007399F4 /* PlayButton.swift */; };
+		287F037A2A2FA55C007399F4 /* PlayingSongControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287F03792A2FA55C007399F4 /* PlayingSongControlPanel.swift */; };
+		287F037C2A2FA679007399F4 /* PlayerControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287F037B2A2FA679007399F4 /* PlayerControlButton.swift */; };
 		2886249429F7B9810094B2CA /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249329F7B9810094B2CA /* AppDIContainer.swift */; };
 		2886249729F7BCA40094B2CA /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2886249629F7BCA40094B2CA /* HomePageView.swift */; };
 		28AE62542A13632000B497EC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AE62532A13632000B497EC /* Album.swift */; };
@@ -46,7 +49,7 @@
 		28AE62612A14C54900B497EC /* GetUserTopItemsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AE62602A14C54900B497EC /* GetUserTopItemsRequest.swift */; };
 		28B17A332A239EDA007FA321 /* PlayingSongPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B17A322A239EDA007FA321 /* PlayingSongPreviewView.swift */; };
 		28B17A352A23A3A7007FA321 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B17A342A23A3A7007FA321 /* PlayerViewModel.swift */; };
-		28B17A372A23BED1007FA321 /* PlayingSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B17A362A23BED1007FA321 /* PlayingSongView.swift */; };
+		28B17A372A23BED1007FA321 /* PlayingSongScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B17A362A23BED1007FA321 /* PlayingSongScreen.swift */; };
 		28B17A392A23C19F007FA321 /* PlayerTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B17A382A23C19F007FA321 /* PlayerTrackerView.swift */; };
 		28BE6BFE2A18C275005C8C11 /* TrackListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BE6BFD2A18C275005C8C11 /* TrackListContainerView.swift */; };
 		28C15D502A0393BF00B454E9 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C15D4F2A0393BF00B454E9 /* GridView.swift */; };
@@ -117,6 +120,9 @@
 		2863132729DAFD2A008DF029 /* BorderlessButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderlessButton.swift; sourceTree = "<group>"; };
 		2863132A29DAFDD7008DF029 /* BlackBGScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBGScreen.swift; sourceTree = "<group>"; };
 		2863133129DB1A65008DF029 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		287F03772A2F9F25007399F4 /* PlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
+		287F03792A2FA55C007399F4 /* PlayingSongControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingSongControlPanel.swift; sourceTree = "<group>"; };
+		287F037B2A2FA679007399F4 /* PlayerControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlButton.swift; sourceTree = "<group>"; };
 		2886249329F7B9810094B2CA /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		2886249629F7BCA40094B2CA /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		28AE62532A13632000B497EC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
@@ -127,7 +133,7 @@
 		28AE62602A14C54900B497EC /* GetUserTopItemsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserTopItemsRequest.swift; sourceTree = "<group>"; };
 		28B17A322A239EDA007FA321 /* PlayingSongPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingSongPreviewView.swift; sourceTree = "<group>"; };
 		28B17A342A23A3A7007FA321 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
-		28B17A362A23BED1007FA321 /* PlayingSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingSongView.swift; sourceTree = "<group>"; };
+		28B17A362A23BED1007FA321 /* PlayingSongScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingSongScreen.swift; sourceTree = "<group>"; };
 		28B17A382A23C19F007FA321 /* PlayerTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTrackerView.swift; sourceTree = "<group>"; };
 		28BE6BFD2A18C275005C8C11 /* TrackListContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListContainerView.swift; sourceTree = "<group>"; };
 		28C15D4F2A0393BF00B454E9 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
@@ -350,6 +356,8 @@
 			isa = PBXGroup;
 			children = (
 				2863132729DAFD2A008DF029 /* BorderlessButton.swift */,
+				287F03772A2F9F25007399F4 /* PlayButton.swift */,
+				287F037B2A2FA679007399F4 /* PlayerControlButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -417,8 +425,9 @@
 			isa = PBXGroup;
 			children = (
 				28B17A322A239EDA007FA321 /* PlayingSongPreviewView.swift */,
-				28B17A362A23BED1007FA321 /* PlayingSongView.swift */,
+				28B17A362A23BED1007FA321 /* PlayingSongScreen.swift */,
 				28B17A382A23C19F007FA321 /* PlayerTrackerView.swift */,
+				287F03792A2FA55C007399F4 /* PlayingSongControlPanel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -702,6 +711,7 @@
 				28AE62612A14C54900B497EC /* GetUserTopItemsRequest.swift in Sources */,
 				284EAF3E29D353AF003292F6 /* SignInView.swift in Sources */,
 				280C51CC29F66D9500AE3B50 /* GetCurrentUserProfileRequest.swift in Sources */,
+				287F037C2A2FA679007399F4 /* PlayerControlButton.swift in Sources */,
 				28F67B6029DEAEBD006863DB /* TokenStorage.swift in Sources */,
 				28C4CC282A1C9FD100BC5C0F /* SignInViewModel.swift in Sources */,
 				28AE625F2A14C52400B497EC /* TopArtists.swift in Sources */,
@@ -717,7 +727,7 @@
 				28AE62542A13632000B497EC /* Album.swift in Sources */,
 				28045AE52A2C9B730083D5CF /* ArtistService.swift in Sources */,
 				28045AD52A2A78F30083D5CF /* RemoteImage.swift in Sources */,
-				28B17A372A23BED1007FA321 /* PlayingSongView.swift in Sources */,
+				28B17A372A23BED1007FA321 /* PlayingSongScreen.swift in Sources */,
 				2843CC1F29F8F31A00D19CC7 /* GetCurrentUserPlaylistRequest.swift in Sources */,
 				28045ADA2A2A7C520083D5CF /* GetCurrentUserPlaylistResponse.swift in Sources */,
 				2843CC2129F8F42B00D19CC7 /* Playlist.swift in Sources */,
@@ -733,6 +743,7 @@
 				28C4CC372A1CC12D00BC5C0F /* SPTTextStyle.swift in Sources */,
 				28045AD82A2A79E20083D5CF /* SpotifyID.swift in Sources */,
 				28C4CC2E2A1CAC1C00BC5C0F /* AuthServiceProtocol.swift in Sources */,
+				287F037A2A2FA55C007399F4 /* PlayingSongControlPanel.swift in Sources */,
 				28045AD12A2A73340083D5CF /* SPTText.swift in Sources */,
 				28E685052A0E218F006BE5DC /* YourLibraryPageView.swift in Sources */,
 				2886249429F7B9810094B2CA /* AppDIContainer.swift in Sources */,
@@ -743,6 +754,7 @@
 				2863132829DAFD2A008DF029 /* BorderlessButton.swift in Sources */,
 				28B17A352A23A3A7007FA321 /* PlayerViewModel.swift in Sources */,
 				2863133229DB1A65008DF029 /* Request.swift in Sources */,
+				287F03782A2F9F25007399F4 /* PlayButton.swift in Sources */,
 				2843CC2329F8FBD600D19CC7 /* ImageLoadClient.swift in Sources */,
 				28F67B6A29DED21E006863DB /* MainPageView.swift in Sources */,
 				2886249729F7BCA40094B2CA /* HomePageView.swift in Sources */,

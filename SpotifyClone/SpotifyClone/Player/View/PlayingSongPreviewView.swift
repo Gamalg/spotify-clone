@@ -41,7 +41,7 @@ struct PlayingSongPreviewView: View {
         }
         .background(Color.gray)
         .fullScreenCover(isPresented: $showingSheet) {
-            PlayingSongView()
+            PlayingSongScreen()
         }
         .onTapGesture {
             showingSheet.toggle()
