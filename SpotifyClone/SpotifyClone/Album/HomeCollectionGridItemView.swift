@@ -7,47 +7,43 @@
 
 import SwiftUI
 
-struct AlbumHomeGridItemViewData: Hashable {
-    var name: String
-    var artistName: String
-    var coverImageURL: String
-    var href: String
-    
-    internal init(name: String, artistName: String, coverImageURL: String, href: String) {
-        self.name = name
-        self.artistName = artistName
-        self.coverImageURL = coverImageURL
-        self.href = href
-    }
-    
-    init(album: Album) {
-        self.name = album.name
-        self.artistName = album.artists.first?.name ?? ""
-        self.coverImageURL = album.images.first?.url ?? ""
-        self.href = album.href
-    }
-}
-
 struct HomeCollectionGridItemView: View {
-    let album: AlbumHomeGridItemViewData
+    struct Data {
+        let imageURL: String
+        let title: String?
+        let subtitle: String
+    }
+    
+    let viewData: HomeCollectionGridItemView.Data
+    
     var body: some View {
         VStack(alignment: .leading) {
-            AsyncCachedImage(url: album.coverImageURL,
+            AsyncCachedImage(url: viewData.imageURL,
                              placeholder: .playlist)
                 .frame(width: 150, height: 150)
-            Text(album.name)
-                .foregroundColor(.white)
-            Text(album.artistName)
-                .foregroundColor(.white)
+            if let title = viewData.title {
+                SPTText(title, style: .caption1)
+            }
+            SPTText(viewData.subtitle, style: .caption1)
         }
     }
 }
 
 struct AlbumHomeGridItemView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeCollectionGridItemView(album: .init(name: "Album",
-                                           artistName: "Artist",
-                                           coverImageURL: "",
-                                           href: ""))
+        BlackBGScreen {        
+            HomeCollectionGridItemView(
+                viewData: .init(imageURL: "",
+                                title: "On an island",
+                                subtitle: "David Glimour"))
+        }
+    }
+}
+
+extension HomeCollectionGridItemView.Data {
+    init(album: Album) {
+        self.imageURL = album.images.first?.url ?? ""
+        self.title = album.name
+        self.subtitle = "Album • \(album.artists.allArtists())"
     }
 }

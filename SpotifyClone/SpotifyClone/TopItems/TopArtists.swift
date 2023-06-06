@@ -7,28 +7,24 @@
 
 import Foundation
 
-struct TopArtistsResponse: Codable {
+struct TopArtistsResponse: Decodable {
     let items: [ArtistItem]
 }
 
-struct ArtistItem: Codable {
-    let externalUrls: ArtistItem.ExternalUrls
+struct ArtistItem: Decodable {
+    let externalUrls: ExternalUrls
     let followers: ArtistItem.Followers
     let genres: [String]
-    let href: String
+    let href: WebAPIEndpointLink
     let id: String
-    let images: [ArtistItem.Image]
+    let images: [RemoteImage]
     let name: String
     let popularity: Int
     let type: String
-    let uri: String
-    
-    struct ExternalUrls: Codable {
-        let spotify: String
-    }
+    let uri: SpotifyURI
 
     struct Followers: Codable {
-        let href: String?
+        let href: WebAPIEndpointLink?
         let total: Int
     }
 

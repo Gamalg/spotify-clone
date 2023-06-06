@@ -10,7 +10,7 @@ import Foundation
 class TrackListContainerViewModel: ObservableObject {
     enum ContainerType {
         /// Required URL string
-        case playlist(String)
+        case playlist(SpotifyID)
         case album(Album)
     }
     
@@ -34,28 +34,24 @@ class TrackListContainerViewModel: ObservableObject {
             
             let trackListContainerData = TrackListContainerData(
                 name: album.name,
-                creator: album.artists.allArtists(),
+                ownerName: album.artists.allArtists(separator: "•"),
                 trackListItems: trackListItems,
-                imageURL: ""
+                ownerImageURL: ""
             )
             
             self.state = .loaded(trackListContainerData)
-        case .playlist(let urlString):
-            guard let url = URL(string: urlString) else {
-                print("Invalid URL for playlist: \(urlString)")
-                return
-            }
-
-            fetchPlaylist(url)
+        case .playlist(let playlistID):
+            fetchPlaylist(playlistID)
         }
     }
     
-    private func fetchPlaylist(_ url: URL) {
+    private func fetchPlaylist(_ playlistID: SpotifyID) {
         Task {
             do {
-                let tracks: PlaylistTracksResponse = try await network.request(url: url)
+                let getPlaylistRequest = GetPlaylistRequest(playlistID: playlistID)
+                let playlist: Playlist = try await network.request(getPlaylistRequest)
                 await MainActor.run {
-                    state = fromTrackResponseToState(tracks)
+                    state = fromTrackResponseToState(playlist)
                 }
             } catch {
                 // error handling
@@ -63,20 +59,20 @@ class TrackListContainerViewModel: ObservableObject {
         }
     }
     
-    private func fromTrackResponseToState(_ trackResponse: PlaylistTracksResponse) -> TrackListContainerViewState {
-        let trackListItems = trackResponse.tracks.items.map {
+    private func fromTrackResponseToState(_ playlist: Playlist) -> TrackListContainerViewState {
+        let trackListItems = playlist.tracks.items.map {
             TrackListItem(name: $0.track.name,
                           authorName: $0.track.artists.map { $0.name }.joined(separator: ","),
                           spotifyURI: $0.track.uri,
                           durationInSeconds: Double($0.track.durationMs / 1000))
         }
-        
+
         return .loaded(
             TrackListContainerData(
-                name: trackResponse.name,
-                creator: "",
+                name: playlist.name,
+                ownerName: playlist.owner.displayName ?? "",
                 trackListItems: trackListItems,
-                imageURL: "")
+                ownerImageURL: "")
         )
     }
 }

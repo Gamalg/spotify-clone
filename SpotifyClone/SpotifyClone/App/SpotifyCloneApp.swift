@@ -20,8 +20,27 @@ struct SpotifyCloneApp: App {
     var body: some Scene {
         WindowGroup {
             AppCoordinatorView(viewModel: viewModel)
-                .onAppear(perform: viewModel.onAppear)
+                .onAppear(perform: onAppear)
         }
+    }
+    
+    private func onAppear() {
+        viewModel.onAppear()
+        setupAppearance()
+    }
+    
+    private func setupAppearance() {
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().standardAppearance = navigationAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
+        
+        let tabbarAppearance = UITabBarAppearance()
+        tabbarAppearance.configureWithTransparentBackground()
+        tabbarAppearance.backgroundColor = .spBlack.withAlphaComponent(0.9)
+        tabbarAppearance.backgroundImage = UIImage()
+        UITabBar.appearance().standardAppearance = tabbarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabbarAppearance
     }
 }
 
@@ -62,6 +81,7 @@ class AppViewModel: ObservableObject {
     }
         
     func onAppear() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
         tokenStorage.token
             .sink { [weak self] token in
                 self?.updateState(token: token)

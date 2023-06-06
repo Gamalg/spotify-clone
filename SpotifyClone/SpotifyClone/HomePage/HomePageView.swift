@@ -15,13 +15,13 @@ struct HomePageView: View {
                 // Grid view made of grid views
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        Text("Good day")
-                        Text("Your playlist:")
+                        HomePageHeadlineText(text: "Good day")
+                        HomePageHeadlineText(text: "Your playlist:")
                         GridView(data: viewModel.playlists,
                                  direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
                             NavigationLink {
                                 TrackListContainerView(
-                                    viewModel: .init(imageURL: playlist.imageUrl, type: .playlist(playlist.href))
+                                    viewModel: .init(imageURL: playlist.imageUrl, type: .playlist(playlist.id))
                                 )
                             } label: {
                                 PlaylistCellView(playlist: playlist)
@@ -34,7 +34,7 @@ struct HomePageView: View {
                                     viewModel: .init(imageURL: album.images.first?.url ?? "", type: .album(album))
                                 )
                             } label: {
-                                AlbumHomeGridItemView(album: AlbumHomeGridItemViewData(album: album))
+                                HomeCollectionGridItemView(viewData: .init(album: album))
                             }
                         }
                         
@@ -52,36 +52,4 @@ struct HomePageView: View {
             }
         }
     }
-}
-
-struct PlaylistTracksResponse: Codable {
-    let name: String
-    let tracks: PlaylistTracksResponse.Tracks
-    
-    struct Tracks: Codable {
-        struct TrackItem: Codable {
-            struct Track: Codable {
-                let name: String
-                let durationMs: Int
-                let uri: String
-                let artists: [PlaylistTracksResponse.Tracks.TrackItem.Track.Artist]
-                struct Artist: Codable {
-                    let name: String
-                }
-            }
-            
-            let track: PlaylistTracksResponse.Tracks.TrackItem.Track
-        }
-        
-        let items: [PlaylistTracksResponse.Tracks.TrackItem]
-    }
-}
-
-struct PlaylistTracksRequest: Codable {
-    let id: String
-    let fields: String?
-    let limit: Int?
-    let market: String?
-    let offset: Int?
-    let additionalTypes: String?
 }

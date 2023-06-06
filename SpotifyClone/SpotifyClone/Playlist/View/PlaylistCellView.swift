@@ -10,7 +10,7 @@ import SwiftUI
 struct PlaylistCellViewData: Hashable {
     let name: String
     let imageUrl: String
-    let href: String
+    let id: SpotifyID
 }
 
 struct PlaylistCellView: View {
@@ -20,18 +20,21 @@ struct PlaylistCellView: View {
         HStack {
             AsyncCachedImage(url: playlist.imageUrl, placeholder: .playlist)
                 .frame(width: 50, height: 50)
-            Text(playlist.name)
-                .font(.caption)
-        }
+            SPTText(playlist.name, style: .caption1)
+            Spacer()
+        }.background(Color.gray.opacity(0.2))
+        .cornerRadius(5)
     }
 }
 
 struct PlaylistCellView_Previews: PreviewProvider {
     static var previews: some View {
-        PlaylistCellView(playlist: PlaylistCellViewData(
-            name: "Playlist",
-            imageUrl: "",
-            href: "")
-        )
+        BlackBGScreen {
+            PlaylistCellView(playlist: PlaylistCellViewData(
+                name: "Playlist",
+                imageUrl: "",
+                id: "")
+            )
+        }
     }
 }
