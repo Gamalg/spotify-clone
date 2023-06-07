@@ -260,8 +260,8 @@
 		2828261A2A20973300E8B2EF /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				28E780022A30FA3700B681CA /* ViewModel */,
 				28B17A312A239ECF007FA321 /* View */,
-				28B17A342A23A3A7007FA321 /* PlayerViewModel.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -539,6 +539,14 @@
 				28E685092A0E2212006BE5DC /* PlaylistCellView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		28E780022A30FA3700B681CA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				28B17A342A23A3A7007FA321 /* PlayerViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		28F67B5829DEABFB006863DB /* Authorization */ = {

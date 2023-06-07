@@ -37,7 +37,7 @@ struct TitleSubtitleText: View {
     let style: TitleSubtitleText.Style
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             if let title = title {
                 SPTText(title, style: style.titleTextStyle)
             }

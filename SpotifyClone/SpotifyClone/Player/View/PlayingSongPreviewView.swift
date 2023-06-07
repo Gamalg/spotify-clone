@@ -25,21 +25,17 @@ struct PlayingSongPreviewView: View {
                 .background(Color.red)
                 .frame(width: 36, height: 36)
                 .padding(.leading)
-            VStack(alignment: .leading) {
-                Text(viewModel.state?.songName ?? "")
-                Text(viewModel.state?.artistName ?? "")
-            }.padding()
+            TitleSubtitleText(
+                title: viewModel.state?.songName ?? "",
+                subtitle: viewModel.state?.artistName ?? "",
+                style: .small
+            ).padding()
             Spacer()
-            Button(action: {
-                viewModel.isPlaying ? viewModel.pause() : viewModel.resume()
-            }) {
-                let image = viewModel.isPlaying ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
-                image
-                    .resizable()
-                    .frame(width: 22, height: 22)
-            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
+            PlayButton(style: .borderless)
+                .frame(width: 22, height: 22)
+                .padding(.trailing)
         }
-        .background(Color.gray)
+        .background(Color.spBlack)
         .fullScreenCover(isPresented: $showingSheet) {
             PlayingSongScreen()
         }
