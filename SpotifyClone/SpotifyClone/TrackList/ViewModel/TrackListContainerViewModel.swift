@@ -29,7 +29,7 @@ class TrackListContainerViewModel: ObservableObject {
         switch type {
         case .album(let album):
             let trackListItems: [TrackListItem] = album.tracks.items.map {
-                TrackListItem(name: $0.name, authorName: $0.artists.allArtists(), spotifyURI: $0.uri, durationInSeconds: Double($0.durationMs / 1000))
+                TrackListItem(name: $0.name, authorName: $0.artists.allArtists(), spotifyURI: $0.uri, durationInSeconds: Double($0.durationMs.toSeconds()))
             }
             
             let trackListContainerData = TrackListContainerData(
@@ -64,7 +64,7 @@ class TrackListContainerViewModel: ObservableObject {
             TrackListItem(name: $0.track.name,
                           authorName: $0.track.artists.map { $0.name }.joined(separator: ","),
                           spotifyURI: $0.track.uri,
-                          durationInSeconds: Double($0.track.durationMs / 1000))
+                          durationInSeconds: Double($0.track.durationMs.toSeconds()))
         }
 
         return .loaded(

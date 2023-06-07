@@ -86,7 +86,7 @@ struct PlayerTrackView: View {
     var body: some View {
         VStack {
             CustomSlider(value: $playerViewModel.currentValue,
-                         maximumValue: totalTime)
+                         maximumValue: playerViewModel.state?.duration ?? 5000)
             .padding()
             
             HStack {

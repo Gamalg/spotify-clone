@@ -32,40 +32,47 @@ struct PlayingSongScreen: View {
     @EnvironmentObject var viewModel: PlayerViewModel
     var body: some View {
         BlackBGScreen {
-            GeometryReader { geometry in
-                ScrollView(showsIndicators: false) {
-                    VStack {
-                        PlayingSongHeaderView()
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    PlayingSongHeaderView()
+                        .padding()
+                    switch viewModel.coverImage {
+                    case .uiImage(let image):
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 300,
+                                   height: 300)
                             .padding()
-                        AsyncCachedImage(url: "", placeholder: .playlist)
-                            .frame(width: geometry.size.width - 32,
-                                   height: geometry.size.width - 32)
-                            .padding()
-                        HStack {
-                            VStack(alignment: .leading) {
-                                SPTText(
-                                    viewModel.state?.songName ?? "",
-                                    style: .headline3
-                                )
-                                SPTText(
-                                    viewModel.state?.artistName ?? "",
-                                    style: .body,
-                                    foregroundColor: .lightGray
-                                )
-                            }
-                            Spacer()
-                            Button {} label: {
-                                Image(systemName: "plus.circle")
-                                    .foregroundColor(.white)
-                            }
-                        }.padding()
-                        
-                        PlayerTrackView()
-                            .padding(.bottom)
-                        
-                        PlayingSongControlPanelView()
+                    case .url(let urlString):
+                        AsyncCachedImage(url: urlString, placeholder: .playlist)
+                            .frame(width: 300,
+                                   height: 300)
                             .padding()
                     }
+                    HStack {
+                        VStack(alignment: .leading) {
+                            SPTText(
+                                viewModel.state?.songName ?? "",
+                                style: .headline3
+                            )
+                            SPTText(
+                                viewModel.state?.artistName ?? "",
+                                style: .body,
+                                foregroundColor: .lightGray
+                            )
+                        }
+                        Spacer()
+                        Button {} label: {
+                            Image(systemName: "plus.circle")
+                                .foregroundColor(.white)
+                        }
+                    }.padding()
+                    
+                    PlayerTrackView()
+                        .padding(.bottom)
+                    
+                    PlayingSongControlPanelView()
+                        .padding()
                 }
             }
         }

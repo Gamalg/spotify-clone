@@ -59,14 +59,14 @@ struct PlayButton: View {
     }
 
     let style: PlayButton.Style
-    @State var isPlaying: Bool = false
-    let action: () -> ()
+    
+    @EnvironmentObject var playerViewModel: PlayerViewModel
     
     var body: some View {
         Button {
-            action()
+            playerViewModel.isPlaying ? playerViewModel.pause() : playerViewModel.resume()
         } label: {
-            if isPlaying {
+            if playerViewModel.isPlaying {
                 pauseImage
             } else {
                 playImage
@@ -93,19 +93,19 @@ struct PlayButton_Previews: PreviewProvider {
     static var previews: some View {
         HStack{
             VStack {
-                PlayButton(style: .borderless) {}
+                PlayButton(style: .borderless)
                     .frame(width: 44, height: 44)
-                PlayButton(style: .rounded) {}
+                PlayButton(style: .rounded)
                     .frame(width: 44, height: 44)
-                PlayButton(style: .roundedGreen) {}
+                PlayButton(style: .roundedGreen)
                     .frame(width: 44, height: 44)
             }
             VStack {
-                PlayButton(style: .borderless, isPlaying: true) {}
+                PlayButton(style: .borderless)
                     .frame(width: 44, height: 44)
-                PlayButton(style: .rounded, isPlaying: true) {}
+                PlayButton(style: .rounded)
                     .frame(width: 44, height: 44)
-                PlayButton(style: .roundedGreen, isPlaying: true) {}
+                PlayButton(style: .roundedGreen)
                     .frame(width: 44, height: 44)
             }
         }.previewLayout(.sizeThatFits).preferredColorScheme(.dark)

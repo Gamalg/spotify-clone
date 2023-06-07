@@ -10,22 +10,17 @@ import SwiftUI
 struct PlayingSongControlPanelView: View {
     var body: some View {
         HStack {
-            PlayerControlButton(type: .shuffle) {
-            }
+            ShuffleButton()
             Spacer()
-            PlayerControlButton(type: .previous) {
-            }.padding(.trailing)
+            SkipButton(direction: .backward)
             Spacer()
-            PlayButton(style: .rounded, isPlaying: true) {
-                
-            }.frame(width: 44, height: 44)
-            .padding(.trailing)
+            PlayButton(style: .rounded)
+                .frame(width: 44, height: 44)
+                .padding(.trailing)
             Spacer()
-            PlayerControlButton(type: .next) {
-            }
+            SkipButton(direction: .forward)
             Spacer()
-            PlayerControlButton(type: .repeat) {
-            }
+            RepeatButton()
         }
     }
 }

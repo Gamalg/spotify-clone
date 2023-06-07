@@ -90,7 +90,7 @@ struct Playlist: Decodable {
             let discNumber: Int
             
             /// The track length in milliseconds.
-            let durationMs: Int
+            let durationMs: Milliseconds
             let explicit: Bool
             let externalUrls: ExternalUrls
             let href: WebAPIEndpointLink

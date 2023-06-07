@@ -15,9 +15,21 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
         let duration: Double
     }
     
+    struct PlaybackState {
+        var isShuffled: Bool = false
+        var repeatMode: RepeatMode = .off
+    }
+    
+    enum CoverImage {
+        case url(String)
+        case uiImage(UIImage)
+    }
+    
     @Published var state: PlayerViewModel.State?
+    @Published var playbackState: PlaybackState = PlaybackState()
     @Published var currentValue = 0.0
     @Published var isPlaying: Bool = false
+    @Published var coverImage: PlayerViewModel.CoverImage = .uiImage(UIImage())
     
     private let configuration = SPTConfiguration(clientID: GlobalConstants.spotifyClientID, redirectURL: URL(string: GlobalConstants.redirectURI)!)
     private let appRemote: SPTAppRemote
@@ -32,6 +44,8 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
         appRemote.playerAPI?.delegate = self
         appRemote.delegate = self
     }
+    
+    // MARK: - Connection
     
     var isConnected: Bool {
         appRemote.isConnected
@@ -56,19 +70,7 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
             return
         }
 
-        appRemote.playerAPI?.play(uri, asRadio: false, callback: { [weak self] isSuccess, _ in
-            guard let self = self else { return }
-            if isSuccess != nil {
-//                self.isPlaying = true
-//                self.timer.invalidate()
-//                self.currentValue = 0
-//                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.fireTimer), userInfo: nil, repeats: true)
-            }
-        })
-    }
-    
-    @objc private func fireTimer() {
-        currentValue += 1
+        appRemote.playerAPI?.play(uri, asRadio: false, callback: { _, _ in })
     }
     
     func playTrackListItem(_ trackListItem: TrackListItem) {
@@ -76,29 +78,38 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
         playURI(trackListItem.spotifyURI)
     }
     
+    // MARK: - Player Control
+    
+    func skipForward() {
+        appRemote.playerAPI?.skip(toNext: { _, _ in
+        })
+    }
+    
+    func skipBackward() {
+        appRemote.playerAPI?.skip(toPrevious: { _, _ in
+        })
+    }
+    
+    func seekForward15Seconds() {
+        appRemote.playerAPI?.seekForward15Seconds()
+    }
+    
+    func seekBackward15Seconds() {
+        appRemote.playerAPI?.seekBackward15Seconds()
+    }
+    
     func skipToPosition(_ seconds: Double) {
+        timer.invalidate()
         let mili = Int(seconds) * 1000
         appRemote.playerAPI?.seek(toPosition: mili)
     }
     
     func resume() {
-        appRemote.playerAPI?.resume { [weak self] isSuccess, _ in
-            guard let self = self else { return }
-            if isSuccess != nil {
-//                self.isPlaying = true
-//                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.fireTimer), userInfo: nil, repeats: true)
-            }
-        }
+        appRemote.playerAPI?.resume()
     }
     
     func pause() {
-        appRemote.playerAPI?.pause { [weak self] isSuccess, _ in
-            guard let self = self else { return }
-            if isSuccess != nil {
-//                self.isPlaying = false
-//                timer.invalidate()
-            }
-        }
+        appRemote.playerAPI?.pause()
     }
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
@@ -107,9 +118,53 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
             songName: playerState.track.name,
             duration: Double(playerState.track.duration / 1000)
         )
+        
         self.currentValue = Double(playerState.playbackPosition / 1000)
         self.isPlaying = !playerState.isPaused
+        
+        updatePlayerPlaybackState(playerState.playbackOptions)
+        
+        if self.isPlaying {
+            timer.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.fireTimer), userInfo: nil, repeats: true)
+        } else {
+            timer.invalidate()
+        }
+        
+        appRemote.imageAPI?.fetchImage(forItem: playerState.track, with: .init(width: 1000, height: 1000)) { [weak self] result, _ in
+            guard let image = result as? UIImage else { return }
+            self?.coverImage = .uiImage(image)
+        }
     }
+    
+    private func updatePlayerPlaybackState(_ state: SPTAppRemotePlaybackOptions) {
+        let state = PlaybackState(isShuffled: state.isShuffling, repeatMode: state.repeatMode.toRepeatMode())
+        self.playbackState = state
+    }
+    
+    // MARK: - Playback state
+    
+    func toggleShuffled() {
+        let shuffled = playbackState.isShuffled
+        appRemote.playerAPI?.setShuffle(!shuffled) { [weak self] result, _ in
+            guard let self = self, let _ = result else { return }
+            self.playbackState.isShuffled = !shuffled
+        }
+    }
+    
+    func changeRepeatMode() {
+        let nextMode = playbackState.repeatMode.next()
+        appRemote.playerAPI?.setRepeatMode(nextMode.toSPTAppRemotePlaybackOptionsRepeatMode()) { [weak self] result, _ in
+            guard let self = self, let _ = result else { return }
+            self.playbackState.repeatMode = nextMode
+        }
+    }
+    
+    @objc private func fireTimer() {
+        currentValue += 1
+    }
+    
+    // MARK: - SPTAppRemoteDelegate
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         
