@@ -9,6 +9,7 @@ import SwiftUI
 
 fileprivate struct PlayingSongHeaderView: View {
     @Environment(\.dismiss) var dismiss
+    let title: String
     var body: some View {
         HStack {
             Button {
@@ -17,7 +18,7 @@ fileprivate struct PlayingSongHeaderView: View {
                 Image(systemName: "chevron.down")
             }.foregroundColor(.white)
             Spacer()
-            SPTText("Playing song", style: .headline4)
+            SPTText(title, style: .headline4)
             Spacer()
             Button {
                 
@@ -34,7 +35,7 @@ struct PlayingSongScreen: View {
         BlackBGScreen {
             ScrollView(showsIndicators: false) {
                 VStack {
-                    PlayingSongHeaderView()
+                    PlayingSongHeaderView(title: viewModel.currentTrack?.context ?? "Playing song")
                         .padding()
                     switch viewModel.coverImage {
                     case .uiImage(let image):
@@ -50,17 +51,11 @@ struct PlayingSongScreen: View {
                             .padding()
                     }
                     HStack {
-                        VStack(alignment: .leading) {
-                            SPTText(
-                                viewModel.state?.songName ?? "",
-                                style: .headline3
-                            )
-                            SPTText(
-                                viewModel.state?.artistName ?? "",
-                                style: .body,
-                                foregroundColor: .lightGray
-                            )
-                        }
+                        TitleSubtitleText(
+                            title: viewModel.currentTrack?.name ?? "",
+                            subtitle: viewModel.currentTrack?.artistName ?? "",
+                            style: .medium
+                        )
                         Spacer()
                         Button {} label: {
                             Image(systemName: "plus.circle")

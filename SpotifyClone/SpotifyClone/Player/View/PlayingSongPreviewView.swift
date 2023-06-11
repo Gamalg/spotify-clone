@@ -11,7 +11,7 @@ struct PlayingSongPreviewView: View {
     @EnvironmentObject var viewModel: PlayerViewModel
     @State private var showingSheet = false
     var body: some View {
-        if viewModel.state == nil {
+        if viewModel.currentTrack == nil {
             HStack {}
         } else {
             content
@@ -20,14 +20,20 @@ struct PlayingSongPreviewView: View {
      
     private var content: some View {
         HStack {
-            Image("")
-                .resizable()
-                .background(Color.red)
-                .frame(width: 36, height: 36)
-                .padding(.leading)
+            switch viewModel.coverImage {
+            case .url(let url):
+                AsyncCachedImage(url: url, placeholder: .playlist)
+                    .frame(width: 36, height: 36)
+                    .padding(.leading)
+            case .uiImage(let uiImage):
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .frame(width: 36, height: 36)
+                    .padding(.leading)
+            }
             TitleSubtitleText(
-                title: viewModel.state?.songName ?? "",
-                subtitle: viewModel.state?.artistName ?? "",
+                title: viewModel.currentTrack?.name ?? "",
+                subtitle: viewModel.currentTrack?.artistName ?? "",
                 style: .small
             ).padding()
             Spacer()

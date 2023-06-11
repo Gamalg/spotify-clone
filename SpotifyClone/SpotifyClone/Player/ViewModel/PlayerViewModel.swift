@@ -9,12 +9,6 @@ import Foundation
 import SpotifyiOS
 
 class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelegate, SPTAppRemoteDelegate {
-    struct State {
-        let artistName: String
-        let songName: String
-        let duration: Double
-    }
-    
     struct PlaybackState {
         var isShuffled: Bool = false
         var repeatMode: RepeatMode = .off
@@ -25,7 +19,7 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
         case uiImage(UIImage)
     }
     
-    @Published var state: PlayerViewModel.State?
+    @Published var currentTrack: AppTrack?
     @Published var playbackState: PlaybackState = PlaybackState()
     @Published var currentValue = 0.0
     @Published var isPlaying: Bool = false
@@ -74,7 +68,6 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
     }
     
     func playTrackListItem(_ trackListItem: TrackListItem) {
-        state = PlayerViewModel.State(trackListItem)
         playURI(trackListItem.spotifyURI)
     }
     
@@ -113,13 +106,9 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
     }
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        self.state = State(
-            artistName: playerState.track.artist.name,
-            songName: playerState.track.name,
-            duration: Double(playerState.track.duration / 1000)
-        )
+        self.currentTrack = AppTrack(playerState: playerState)
         
-        self.currentValue = Double(playerState.playbackPosition / 1000)
+        self.currentValue = Double(playerState.playbackPosition.toSeconds())
         self.isPlaying = !playerState.isPaused
         
         updatePlayerPlaybackState(playerState.playbackOptions)
@@ -182,15 +171,6 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
 extension PlayerViewModel {
     static func filledViewModel() -> PlayerViewModel {
         let viewModel = PlayerViewModel()
-        viewModel.state = State(artistName: "Linkin Park", songName: "Numb", duration: 325)
         return viewModel
-    }
-}
-
-extension PlayerViewModel.State {
-    init(_ trackListItem: TrackListItem) {
-        self.artistName = trackListItem.authorName
-        self.songName = trackListItem.name
-        self.duration = trackListItem.durationInSeconds
     }
 }

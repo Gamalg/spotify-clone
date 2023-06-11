@@ -86,7 +86,7 @@ struct PlayerTrackView: View {
     var body: some View {
         VStack {
             CustomSlider(value: $playerViewModel.currentValue,
-                         maximumValue: playerViewModel.state?.duration ?? 5000)
+                         maximumValue: Double(playerViewModel.currentTrack?.duration ?? 5000))
             .padding()
             
             HStack {
@@ -94,7 +94,7 @@ struct PlayerTrackView: View {
                     .padding(.leading)
                     .foregroundColor(.lightGray)
                 Spacer()
-                Text(Int(playerViewModel.state?.duration ?? 0.0).convertSecondsToTime())
+                Text(Int(playerViewModel.currentTrack?.duration ?? 0).convertSecondsToTime())
                     .padding(.trailing)
                     .foregroundColor(.lightGray)
             }

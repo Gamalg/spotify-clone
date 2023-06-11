@@ -26,6 +26,7 @@ enum SPTTextStyle {
     case headline2
     case headline3
     case headline4
+    case h13
     
     case body
     
@@ -41,6 +42,8 @@ enum SPTTextStyle {
             return .system(size: 19, weight: .bold)
         case .headline4:
             return .system(size: 15, weight: .bold)
+        case .h13:
+            return .system(size: 13, weight: .bold)
         case .body:
             return .system(size: 15, weight: .regular)
         case .caption1:

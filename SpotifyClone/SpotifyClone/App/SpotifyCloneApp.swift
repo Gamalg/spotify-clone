@@ -21,6 +21,7 @@ struct SpotifyCloneApp: App {
         WindowGroup {
             AppCoordinatorView(viewModel: viewModel)
                 .onAppear(perform: onAppear)
+                .preferredColorScheme(.dark)
         }
     }
     

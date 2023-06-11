@@ -11,6 +11,7 @@ struct TitleSubtitleText: View {
     enum Style {
         case medium
         case small
+        case homePageItem
         
         var titleTextStyle: SPTTextStyle {
             switch self {
@@ -18,6 +19,8 @@ struct TitleSubtitleText: View {
                 return .headline3
             case .small:
                 return .headline4
+            case .homePageItem:
+                return .h13
             }
         }
         
@@ -26,6 +29,8 @@ struct TitleSubtitleText: View {
             case .medium:
                 return .body
             case .small:
+                return .caption1
+            case .homePageItem:
                 return .caption1
             }
         }
