@@ -11,7 +11,7 @@ struct PlayingSongPreviewView: View {
     @EnvironmentObject var viewModel: PlayerViewModel
     @State private var showingSheet = false
     var body: some View {
-        if viewModel.state == nil {
+        if viewModel.currentTrack == nil {
             HStack {}
         } else {
             content
@@ -20,28 +20,30 @@ struct PlayingSongPreviewView: View {
      
     private var content: some View {
         HStack {
-            Image("")
-                .resizable()
-                .background(Color.red)
-                .frame(width: 36, height: 36)
-                .padding(.leading)
-            VStack(alignment: .leading) {
-                Text(viewModel.state?.songName ?? "")
-                Text(viewModel.state?.artistName ?? "")
-            }.padding()
-            Spacer()
-            Button(action: {
-                viewModel.isPlaying ? viewModel.pause() : viewModel.resume()
-            }) {
-                let image = viewModel.isPlaying ? Image(systemName: "pause.fill") : Image(systemName: "play.fill")
-                image
+            switch viewModel.coverImage {
+            case .url(let url):
+                AsyncCachedImage(url: url, placeholder: .playlist)
+                    .frame(width: 36, height: 36)
+                    .padding(.leading)
+            case .uiImage(let uiImage):
+                Image(uiImage: uiImage)
                     .resizable()
-                    .frame(width: 22, height: 22)
-            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
+                    .frame(width: 36, height: 36)
+                    .padding(.leading)
+            }
+            TitleSubtitleText(
+                title: viewModel.currentTrack?.name ?? "",
+                subtitle: viewModel.currentTrack?.artistName ?? "",
+                style: .small
+            ).padding()
+            Spacer()
+            PlayButton(style: .borderless)
+                .frame(width: 22, height: 22)
+                .padding(.trailing)
         }
-        .background(Color.gray)
+        .background(Color.spBlack)
         .fullScreenCover(isPresented: $showingSheet) {
-            PlayingSongView()
+            PlayingSongScreen()
         }
         .onTapGesture {
             showingSheet.toggle()

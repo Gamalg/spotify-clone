@@ -21,10 +21,11 @@ struct HomeCollectionGridItemView: View {
             AsyncCachedImage(url: viewData.imageURL,
                              placeholder: .playlist)
                 .frame(width: 150, height: 150)
-            if let title = viewData.title {
-                SPTText(title, style: .caption1)
-            }
-            SPTText(viewData.subtitle, style: .caption1)
+            TitleSubtitleText(
+                title: viewData.title,
+                subtitle: viewData.subtitle,
+                style: .homePageItem
+            )
         }
     }
 }

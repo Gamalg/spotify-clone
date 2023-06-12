@@ -14,7 +14,7 @@ struct Track: Decodable {
     let discNumber: Int
     
     /// The track length in milliseconds.
-    let durationMs: Int
+    let durationMs: Milliseconds
     let explicit: Bool
     let externalUrls: ExternalUrls
     let href: WebAPIEndpointLink
@@ -48,7 +48,7 @@ struct SimplifiedTrack: Hashable, Decodable {
     let artists: [SimplfiedArtist]
     let availableMarkets: [String]?
     let discNumber: Int
-    let durationMs: Int
+    let durationMs: Milliseconds
     let explicit: Bool
     let externalUrls: ExternalUrls
     let href: WebAPIEndpointLink

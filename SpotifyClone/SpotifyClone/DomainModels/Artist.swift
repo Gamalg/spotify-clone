@@ -10,14 +10,14 @@ import Foundation
 struct Artist: Decodable {
     let externalUrls: ExternalUrls
     let followers: Followers?
-    let genres: [String]
-    let href: WebAPIEndpointLink
-    let id: String
     let images: [RemoteImage]
-    let name: String
     let popularity: Int
-    let type: String
+    let href: WebAPIEndpointLink
     let uri: SpotifyURI
+    let id: String
+    let name: String
+    let type: String
+    let genres: [String]
 
     struct Followers: Decodable {
         let href: WebAPIEndpointLink?
