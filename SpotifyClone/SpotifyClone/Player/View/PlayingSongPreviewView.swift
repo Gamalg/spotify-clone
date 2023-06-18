@@ -33,7 +33,7 @@ struct PlayingSongPreviewView: View {
             }
             TitleSubtitleText(
                 title: viewModel.currentTrack?.name ?? "",
-                subtitle: viewModel.currentTrack?.artistName ?? "",
+                subtitle: viewModel.currentTrack?.artist.name ?? "",
                 style: .small
             ).padding()
             Spacer()
