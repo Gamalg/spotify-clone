@@ -1,5 +1,5 @@
 //
-//  TrackListContainerView.swift
+//  TrackListContainerScreen.swift
 //  SpotifyClone
 //
 //  Created by Gamal Kubeyev on 20.05.2023.
@@ -67,7 +67,7 @@ struct TrackListContainerData {
     let ownerImageURL: String
 }
 
-struct TrackListContainerView: View {
+struct TrackListContainerScreen: View {
     @ObservedObject var viewModel: TrackListContainerViewModel
     @EnvironmentObject var playerViewModel: PlayerViewModel
     
@@ -113,6 +113,6 @@ struct TrackListContainerView: View {
 
 struct TrackListView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackListContainerView(viewModel: .init(imageURL: "", type: .playlist("")))
+        TrackListContainerScreen(viewModel: .init(imageURL: "", type: .playlist("")))
     }
 }
