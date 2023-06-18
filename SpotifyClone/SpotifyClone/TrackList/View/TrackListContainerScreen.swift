@@ -1,5 +1,5 @@
 //
-//  TrackListContainerView.swift
+//  TrackListContainerScreen.swift
 //  SpotifyClone
 //
 //  Created by Gamal Kubeyev on 20.05.2023.
@@ -60,14 +60,7 @@ fileprivate struct AuthorView: View {
     }
 }
 
-struct TrackListContainerData {
-    let name: String
-    let ownerName: String
-    let trackListItems: [TrackListItem]
-    let ownerImageURL: String
-}
-
-struct TrackListContainerView: View {
+struct TrackListContainerScreen: View {
     @ObservedObject var viewModel: TrackListContainerViewModel
     @EnvironmentObject var playerViewModel: PlayerViewModel
     
@@ -81,7 +74,6 @@ struct TrackListContainerView: View {
                         ProgressView()
                     case .loaded(let containerData):
                         // Image for Track list
-                        //            Image("")
                         AsyncCachedImage(url: viewModel.imageURL, placeholder: .playlist)
                             .frame(width: 300, height: 300)
                         VStack(alignment: .leading) {
@@ -90,17 +82,19 @@ struct TrackListContainerView: View {
                             SPTText(containerData.name, style: .headline1)
                                 .padding(.bottom)
                             
-                            AuthorView(imageURL: containerData.ownerImageURL,
-                                       authorName: containerData.ownerName)
+                            AuthorView(imageURL: containerData.creatorImage,
+                                       authorName: containerData.creator)
                                 .padding(.bottom)
                             ControlPanelView()
                                 .padding(.bottom)
                             
-                            ForEach(containerData.trackListItems) { trackListItem in
-                                TrackListItemView(trackListItem: trackListItem)
+                            ForEach(containerData.tracks) { track in
+                                let item = TrackListItem(track: track)
+                                TrackListItemView(trackListItem: item)
                                     .padding(.bottom)
                                     .onTapGesture {
-                                        playerViewModel.playTrackListItem(trackListItem)
+                                        // track number in disc starts from 1
+                                        playerViewModel.playContainer(item: track, index: track.index - 1)
                                     }
                             }
                         }.padding()
@@ -113,6 +107,6 @@ struct TrackListContainerView: View {
 
 struct TrackListView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackListContainerView(viewModel: .init(imageURL: "", type: .playlist("")))
+        TrackListContainerScreen(viewModel: .init(imageURL: "", type: .playlist("")))
     }
 }

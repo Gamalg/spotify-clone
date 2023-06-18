@@ -17,7 +17,7 @@ class TrackListContainerViewModel: ObservableObject {
     @Published var state: TrackListContainerViewState = .loading
     let imageURL: String
     private let network = AppDIContainer.shared.network
-    private let type: ContainerType
+    let type: ContainerType
     
     init(imageURL: String,
          type: ContainerType) {
@@ -28,18 +28,29 @@ class TrackListContainerViewModel: ObservableObject {
     func loadTracks() {
         switch type {
         case .album(let album):
-            let trackListItems: [TrackListItem] = album.tracks.items.map {
-                TrackListItem(name: $0.name, authorName: $0.artists.allArtists(), spotifyURI: $0.uri, durationInSeconds: Double($0.durationMs.toSeconds()))
+            let tracks: [AppTrack] = album.tracks.items.map {
+                AppTrack(
+                    name: $0.name,
+                    uri: $0.uri,
+                    artist: AppArtist(name: $0.artists.allArtists(), uri: $0.artists.first?.uri ?? ""),
+                    album: AppAlbum(name: album.name, uri: album.uri),
+                    context: album.name,
+                    contextURI: album.uri,
+                    duration: $0.durationMs.toSeconds(),
+                    index: $0.trackNumber
+                )
             }
             
-            let trackListContainerData = TrackListContainerData(
+            let container = AppTrackContainer(
                 name: album.name,
-                ownerName: album.artists.allArtists(separator: "•"),
-                trackListItems: trackListItems,
-                ownerImageURL: ""
+                creator: album.artists.allArtists(),
+                creatorImage: "",
+                image: album.images.first?.url ?? "",
+                uri: album.uri,
+                tracks: tracks
             )
             
-            self.state = .loaded(trackListContainerData)
+            self.state = .loaded(container)
         case .playlist(let playlistID):
             fetchPlaylist(playlistID)
         }
@@ -60,24 +71,36 @@ class TrackListContainerViewModel: ObservableObject {
     }
     
     private func fromTrackResponseToState(_ playlist: Playlist) -> TrackListContainerViewState {
-        let trackListItems = playlist.tracks.items.map {
-            TrackListItem(name: $0.track.name,
-                          authorName: $0.track.artists.map { $0.name }.joined(separator: ","),
-                          spotifyURI: $0.track.uri,
-                          durationInSeconds: Double($0.track.durationMs.toSeconds()))
+        var index = 1
+        let tracks: [AppTrack] = playlist.tracks.items.map {
+            let track = AppTrack(
+                name: $0.track.name,
+                uri: $0.track.uri,
+                artist: AppArtist(name: $0.track.artists.allArtists(), uri: $0.track.artists.first?.uri ?? ""),
+                album: AppAlbum(name: $0.track.album.name, uri: $0.track.album.uri),
+                context: playlist.name,
+                contextURI: playlist.uri,
+                duration: $0.track.durationMs.toSeconds(),
+                index: index
+            )
+            index += 1
+            return track
         }
 
         return .loaded(
-            TrackListContainerData(
+            AppTrackContainer(
                 name: playlist.name,
-                ownerName: playlist.owner.displayName ?? "",
-                trackListItems: trackListItems,
-                ownerImageURL: "")
+                creator: playlist.owner.displayName ?? "",
+                creatorImage: "",
+                image: playlist.images.first?.url ?? "",
+                uri: playlist.uri,
+                tracks: tracks
+            )
         )
     }
 }
 
 enum TrackListContainerViewState {
     case loading
-    case loaded(TrackListContainerData)
+    case loaded(AppTrackContainer)
 }

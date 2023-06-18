@@ -66,6 +66,15 @@ class PlayerViewModel: NSObject, ObservableObject, SPTAppRemotePlayerStateDelega
 
         appRemote.playerAPI?.play(uri, asRadio: false, callback: { _, _ in })
     }
+
+    func playContainer(item: SPTAppRemoteContentItem, index: Int = 0) {
+        if !appRemote.isConnected {
+            appRemote.authorizeAndPlayURI(item.identifier)
+            return
+        }
+        
+        appRemote.playerAPI?.play(item, skipToTrackIndex: index)
+    }
     
     func playTrackListItem(_ trackListItem: TrackListItem) {
         playURI(trackListItem.spotifyURI)

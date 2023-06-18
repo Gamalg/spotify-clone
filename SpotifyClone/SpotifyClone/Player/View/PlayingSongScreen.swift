@@ -53,7 +53,7 @@ struct PlayingSongScreen: View {
                     HStack {
                         TitleSubtitleText(
                             title: viewModel.currentTrack?.name ?? "",
-                            subtitle: viewModel.currentTrack?.artistName ?? "",
+                            subtitle: viewModel.currentTrack?.artist.name ?? "",
                             style: .medium
                         )
                         Spacer()

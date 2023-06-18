@@ -11,17 +11,10 @@ struct TrackListItemView: View {
     let trackListItem: TrackListItem
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                SPTText(trackListItem.name,
-                        style: .body)
-                SPTText(trackListItem.authorName,
-                        style: .caption1,
-                        foregroundColor: .lightGray
-                )
-            }
-            
+            TitleSubtitleText(title: trackListItem.name,
+                              subtitle: trackListItem.authorName,
+                              style: .small)
             Spacer()
-            
             Button(action: {}) {
                 Image(systemName: "ellipsis")
             }
@@ -35,7 +28,6 @@ struct TrackListItemView: View {
  - Creator name
  - Array of tracks with song name, author, spotify track id
  */
-
 struct TrackListItem: Identifiable {
     let name: String
     let authorName: String
@@ -44,5 +36,14 @@ struct TrackListItem: Identifiable {
     
     var id: String {
         spotifyURI
+    }
+}
+
+extension TrackListItem {
+    init(track: AppTrack) {
+        self.name = track.name
+        self.authorName = track.artist.name
+        self.spotifyURI = track.uri
+        self.durationInSeconds = Double(track.duration)
     }
 }

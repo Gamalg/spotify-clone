@@ -80,3 +80,11 @@ struct SimplifiedTrack: Hashable, Decodable {
     ///Whether or not the track is from a local file.
     let isLocal: Bool
 }
+
+extension Track {
+    func trackNumber() -> Int {
+        album.tracks.items.first {
+            $0.id == id
+        }?.trackNumber ?? 0
+    }
+}

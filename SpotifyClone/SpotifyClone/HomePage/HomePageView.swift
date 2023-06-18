@@ -20,7 +20,7 @@ struct HomePageView: View {
                         GridView(data: viewModel.playlists,
                                  direction: .vertical([GridItem(.flexible()), GridItem(.flexible())])) { playlist in
                             NavigationLink {
-                                TrackListContainerView(
+                                TrackListContainerScreen(
                                     viewModel: .init(imageURL: playlist.imageUrl, type: .playlist(playlist.id))
                                 )
                             } label: {
@@ -30,7 +30,7 @@ struct HomePageView: View {
                         GridView(data: viewModel.albums,
                                  direction: .horizontal([GridItem(.flexible())])) { album in
                             NavigationLink {
-                                TrackListContainerView(
+                                TrackListContainerScreen(
                                     viewModel: .init(imageURL: album.images.first?.url ?? "", type: .album(album))
                                 )
                             } label: {
